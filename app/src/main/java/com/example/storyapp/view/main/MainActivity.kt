@@ -11,9 +11,9 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import com.example.storyapp.R
-import com.example.storyapp.ViewModelFactory
+import com.example.storyapp.data.preferences.LoginPreference
 import com.example.storyapp.databinding.ActivityMainBinding
-import com.example.storyapp.model.UserPreference
+import com.example.storyapp.view.ViewModelFactory
 import com.example.storyapp.view.setting.SettingActivity
 import com.example.storyapp.view.welcome.WelcomeActivity
 
@@ -38,11 +38,11 @@ class MainActivity : AppCompatActivity() {
     private fun setupViewModel() {
         mainViewModel = ViewModelProvider(
             this,
-            ViewModelFactory(UserPreference.getInstance(dataStore))
+            ViewModelFactory(LoginPreference.getInstance(dataStore))
         )[MainViewModel::class.java]
 
         mainViewModel.getUser().observe(this) { user ->
-            if (user.isLogin) {
+            if (user.isLoggedIn) {
 //                binding.nameTextView.text = getString(R.string.greeting, user.name)
             } else {
                 startActivity(Intent(this, WelcomeActivity::class.java))

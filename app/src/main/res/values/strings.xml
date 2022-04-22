@@ -6,7 +6,10 @@
     <string name="signup">Daftar</string>
     <string name="login">Masuk</string>
     <string name="message_welcome_page">Bagikan ceritamu yang sangat fantastis itu!!!</string>
+    <string name="message_welcome_alert">Anda berhasil login. Sudah tidak sabar untuk membargikan cerita anda?</string>
     <string name="title_welcome_page">Selamat datang di StoryUS!</string>
+    <string name="title_welcome_elert">Hallo !!</string>
+    <string name="next_alert">Lanjut</string>
     <string name="title_signup_page">Lengkapi data dirimu di bawah ini ya</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -18,4 +21,22 @@
     <string name="greeting">Halo %1$s,</string>
     <string name="logout">Keluar</string>
     <string name="menu_setting">Setting</string>
+    <string name="submit">Submit</string>
+    <string name="invalid_email">Email Tidak Sesuai</string>
+    <string name="invalid_password">Password Harus Lebih Dari 5 Karakter</string>
+    <string name="empty_email">Field Email Harus Diisi</string>
+    <string name="empty_password">Field Password Harus Diisi</string>
+    <string name="empty_name">Field Nama Harus Diisi</string>
+    <string name="fill_all">Isi Dahulu !!!</string>
+    <string name="input_email">Masukan Email</string>
+    <string name="input_password">Masukan Password</string>
+    <string name="hint_name">Masukan Nama Anda</string>
+    <string name="hint_email">Masukan Email Anda</string>
+    <string name="hint_password">******</string>
+    <string name="login_error">Email atau Password Tidak Tidak Ditemukan</string>
+    <string name="login_failed">Login Gagal</string>
+    <string name="register_failed">Register Gagal</string>
+    <string name="register_error">Register Gagal, Coba Isi Data Dengan Baik</string>
+    <string name="title_welcome_elert_failed">Haduh Sayang Sekali Anda Tidak Berhasil Login. Silahkan Coba Lagi</string>
+    <string name="logo_image">Gambar Logo</string>
 </resources>

@@ -10,9 +10,9 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import com.example.storyapp.R
-import com.example.storyapp.ViewModelFactory
+import com.example.storyapp.data.preferences.LoginPreference
 import com.example.storyapp.databinding.ActivitySettingBinding
-import com.example.storyapp.model.UserPreference
+import com.example.storyapp.view.ViewModelFactory
 import com.example.storyapp.view.welcome.WelcomeActivity
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
@@ -37,11 +37,11 @@ class SettingActivity : AppCompatActivity() {
     private fun setupViewModel() {
         settingViewModel = ViewModelProvider(
             this,
-            ViewModelFactory(UserPreference.getInstance(dataStore))
+            ViewModelFactory(LoginPreference.getInstance(dataStore))
         )[SettingViewModel::class.java]
 
         settingViewModel.getUser().observe(this) { user ->
-            if (user.isLogin) {
+            if (user.isLoggedIn) {
 //                binding.nameTextView.text = getString(R.string.greeting, user.name)
             } else {
                 startActivity(Intent(this, WelcomeActivity::class.java))

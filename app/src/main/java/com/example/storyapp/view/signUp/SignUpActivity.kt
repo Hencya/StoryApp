@@ -1,26 +1,21 @@
 package com.example.storyapp.view.signUp
 
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.ViewModelProvider
-import com.example.storyapp.ViewModelFactory
+import com.example.storyapp.R
 import com.example.storyapp.databinding.ActivitySignUpBinding
-import com.example.storyapp.model.UserModel
-import com.example.storyapp.model.UserPreference
+import com.example.storyapp.utils.ApiCallbackString
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
-    private lateinit var signupViewModel: SignUpViewModel
+    private val signupViewModel by viewModels<SignUpViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,8 +23,8 @@ class SignUpActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupView()
-        setupViewModel()
         setupAction()
+        showLoading()
     }
 
     private fun setupView() {
@@ -45,39 +40,82 @@ class SignUpActivity : AppCompatActivity() {
         supportActionBar?.hide()
     }
 
-    private fun setupViewModel() {
-        signupViewModel = ViewModelProvider(
-            this,
-            ViewModelFactory(UserPreference.getInstance(dataStore))
-        )[SignUpViewModel::class.java]
-    }
-
     private fun setupAction() {
-        binding.signupButton.setOnClickListener {
+        binding.signUpButton.setOnClickListener {
             val name = binding.nameEditText.text.toString()
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
             when {
-                name.isEmpty() -> {
-                    binding.nameEditTextLayout.error = "Masukkan email"
-                }
                 email.isEmpty() -> {
-                    binding.emailEditTextLayout.error = "Masukkan email"
+                    binding.emailEditText.error = getString(R.string.empty_email)
                 }
                 password.isEmpty() -> {
-                    binding.passwordEditTextLayout.error = "Masukkan password"
+                    binding.passwordEditText.error = getString(R.string.empty_password)
                 }
                 else -> {
-                    signupViewModel.saveUser(UserModel(name, email, password, false))
-                    AlertDialog.Builder(this).apply {
-                        setTitle("Yeah!")
-                        setMessage("Akunnya sudah jadi nih. Yuk, login dan belajar coding.")
-                        setPositiveButton("Lanjut") { _, _ ->
-                            finish()
+                    signupViewModel.register(name, email, password, object : ApiCallbackString {
+                        override fun onResponse(success: Boolean, message: String) {
+                            showAlertDialog(success, message)
                         }
-                        create()
-                        show()
-                    }
+                    })
+
+                }
+            }
+        }
+    }
+
+    private fun showAlertDialog(success: Boolean, message: String) {
+        if (success) {
+            AlertDialog.Builder(this).apply {
+                setTitle(getString(R.string.title_welcome_elert))
+                setMessage(getString(R.string.message_welcome_alert))
+                setPositiveButton(getString(R.string.next_alert)) { _, _ ->
+                    finish()
+                }
+                create()
+                show()
+            }
+        } else {
+            AlertDialog.Builder(this).apply {
+                setTitle(getString(R.string.title_welcome_elert_failed))
+                setMessage(getString(R.string.register_failed) + ", $message")
+                setPositiveButton(getString(R.string.next_alert)) { _, _ ->
+                    binding.signUpProgressBar.visibility = View.GONE
+                    binding.imageView.visibility = View.VISIBLE
+                    binding.titleTextView.visibility = View.VISIBLE
+                    binding.emailTextView.visibility = View.VISIBLE
+                    binding.emailEditText.visibility = View.VISIBLE
+                    binding.passwordTextView.visibility = View.VISIBLE
+                    binding.passwordEditText.visibility = View.VISIBLE
+                    binding.signUpButton.visibility = View.VISIBLE
+                }
+                create()
+                show()
+            }
+        }
+    }
+
+    private fun showLoading() {
+        signupViewModel.isLoading.observe(this) {
+            binding.apply {
+                if (it) {
+                    signUpProgressBar.visibility = View.VISIBLE
+                    imageView.visibility = View.GONE
+                    titleTextView.visibility = View.GONE
+                    emailTextView.visibility = View.GONE
+                    emailEditText.visibility = View.GONE
+                    passwordTextView.visibility = View.GONE
+                    passwordEditText.visibility = View.GONE
+                    signUpButton.visibility = View.GONE
+                } else {
+                    signUpProgressBar.visibility = View.GONE
+                    imageView.visibility = View.VISIBLE
+                    titleTextView.visibility = View.VISIBLE
+                    emailTextView.visibility = View.VISIBLE
+                    emailEditText.visibility = View.VISIBLE
+                    passwordTextView.visibility = View.VISIBLE
+                    passwordEditText.visibility = View.VISIBLE
+                    signUpButton.visibility = View.VISIBLE
                 }
             }
         }
