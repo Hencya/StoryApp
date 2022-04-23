@@ -3,6 +3,7 @@
     package="com.example.storyapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,19 +12,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StoryApp">
         <activity
-            android:name=".view.setting.SettingActivity"
+            android:name=".ui.detailStory.DetailStoryActivity"
             android:exported="false" />
         <activity
-            android:name=".view.welcome.WelcomeActivity"
+            android:name=".ui.setting.SettingActivity"
             android:exported="false" />
         <activity
-            android:name=".view.signUp.SignUpActivity"
+            android:name=".ui.welcome.WelcomeActivity"
             android:exported="false" />
         <activity
-            android:name=".view.login.LoginActivity"
+            android:name=".ui.signUp.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".view.main.MainActivity"
+            android:name=".ui.login.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

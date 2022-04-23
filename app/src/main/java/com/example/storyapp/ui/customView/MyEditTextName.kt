@@ -1,4 +1,4 @@
-package com.example.storyapp.view.customView
+package com.example.storyapp.ui.customView
 
 import android.content.Context
 import android.graphics.Canvas
@@ -6,17 +6,15 @@ import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.Patterns
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.example.storyapp.R
 import com.google.android.material.textfield.TextInputEditText
 
-class MyEditTextEmail : TextInputEditText, View.OnTouchListener {
+class MyEditTextName : TextInputEditText, View.OnTouchListener {
 
     private lateinit var clearButton: Drawable
-    private lateinit var emailIcon: Drawable
 
     constructor(context: Context) : super(context) {
         init()
@@ -37,19 +35,14 @@ class MyEditTextEmail : TextInputEditText, View.OnTouchListener {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         setBackgroundResource(R.drawable.border_edit_text)
-        hint = context.getString(R.string.hint_email)
+        hint = context.getString(R.string.hint_name)
         textAlignment = View.TEXT_ALIGNMENT_VIEW_START
     }
 
     private fun init() {
         clearButton =
             ContextCompat.getDrawable(context, R.drawable.ic_baseline_close_24) as Drawable
-        emailIcon = ContextCompat.getDrawable(context, R.drawable.ic_baseline_email_24) as Drawable
 
-        setCompoundDrawablesWithIntrinsicBounds(
-            emailIcon, null,
-            null, null
-        )
         setOnTouchListener(this)
 
         addTextChangedListener(object : TextWatcher {
@@ -63,30 +56,25 @@ class MyEditTextEmail : TextInputEditText, View.OnTouchListener {
 
             override fun afterTextChanged(s: Editable) {
 
-                if (!isEmailValid(s)) {
-                    showError()
-                }
+                if (s.toString().isEmpty()) showError()
             }
         })
     }
 
-    private fun isEmailValid(email: CharSequence): Boolean {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
 
     private fun showError() {
-        error = context.getString(R.string.invalid_email)
+        error = context.getString(R.string.empty_name)
     }
 
     private fun showClearButton() {
         setCompoundDrawablesWithIntrinsicBounds(
-            emailIcon, null,
+            null, null,
             clearButton, null
         )
     }
 
     private fun hideClearButton() {
-        setCompoundDrawablesWithIntrinsicBounds(emailIcon, null, null, null)
+        setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
     }
 
     override fun onTouch(v: View?, event: MotionEvent): Boolean {

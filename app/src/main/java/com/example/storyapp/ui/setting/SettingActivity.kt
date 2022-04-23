@@ -1,4 +1,4 @@
-package com.example.storyapp.view.setting
+package com.example.storyapp.ui.setting
 
 import android.content.Context
 import android.content.Intent
@@ -12,8 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.storyapp.R
 import com.example.storyapp.data.preferences.LoginPreference
 import com.example.storyapp.databinding.ActivitySettingBinding
-import com.example.storyapp.view.ViewModelFactory
-import com.example.storyapp.view.welcome.WelcomeActivity
+import com.example.storyapp.ui.ViewModelFactory
+import com.example.storyapp.ui.welcome.WelcomeActivity
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "login_pref")
 

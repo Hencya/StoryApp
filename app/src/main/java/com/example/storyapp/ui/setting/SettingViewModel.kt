@@ -1,4 +1,4 @@
-package com.example.storyapp.view.main
+package com.example.storyapp.ui.setting
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -8,7 +8,7 @@ import com.example.storyapp.data.model.UserModel
 import com.example.storyapp.data.preferences.LoginPreference
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val pref: LoginPreference) : ViewModel() {
+class SettingViewModel(private val pref: LoginPreference) : ViewModel() {
     fun getUser(): LiveData<UserModel> {
         return pref.getUser().asLiveData()
     }

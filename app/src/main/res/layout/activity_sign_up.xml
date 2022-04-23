@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.signUp.SignUpActivity">
+    tools:context=".ui.signUp.SignUpActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -61,7 +61,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
 
-    <com.example.storyapp.view.customView.MyEditTextName
+    <com.example.storyapp.ui.customView.MyEditTextName
         android:id="@+id/nameEditText"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -85,7 +85,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
 
-    <com.example.storyapp.view.customView.MyEditTextEmail
+    <com.example.storyapp.ui.customView.MyEditTextEmail
         android:id="@+id/emailEditText"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -111,7 +111,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
 
-    <com.example.storyapp.view.customView.MyEditTextPassword
+    <com.example.storyapp.ui.customView.MyEditTextPassword
         android:id="@+id/passwordEditText"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -126,7 +126,7 @@
         app:passwordToggleEnabled="true"
         app:startIconDrawable="@drawable/ic_baseline_lock_24" />
 
-    <com.example.storyapp.view.customView.MyButtonSignUp
+    <com.example.storyapp.ui.customView.MyButtonSignUp
         android:id="@+id/signUpButton"
         android:layout_width="match_parent"
         android:layout_height="45dp"

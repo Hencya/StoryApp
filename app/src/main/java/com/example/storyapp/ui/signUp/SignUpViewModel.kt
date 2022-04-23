@@ -1,4 +1,4 @@
-package com.example.storyapp.view.signUp
+package com.example.storyapp.ui.signUp
 
 import android.util.Log
 import androidx.lifecycle.LiveData

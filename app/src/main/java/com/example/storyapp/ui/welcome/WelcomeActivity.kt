@@ -1,4 +1,4 @@
-package com.example.storyapp.view.welcome
+package com.example.storyapp.ui.welcome
 
 import android.content.Intent
 import android.os.Build
@@ -7,8 +7,8 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.storyapp.databinding.ActivityWelcomeBinding
-import com.example.storyapp.view.login.LoginActivity
-import com.example.storyapp.view.signUp.SignUpActivity
+import com.example.storyapp.ui.login.LoginActivity
+import com.example.storyapp.ui.signUp.SignUpActivity
 
 class WelcomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWelcomeBinding

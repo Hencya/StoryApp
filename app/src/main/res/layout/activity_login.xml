@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.login.LoginActivity">
+    tools:context=".ui.login.LoginActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -75,7 +75,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/messageTextView" />
 
-    <com.example.storyapp.view.customView.MyEditTextEmail
+    <com.example.storyapp.ui.customView.MyEditTextEmail
         android:id="@+id/emailEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
         app:layout_constraintTop_toBottomOf="@+id/emailEditText"
         app:passwordToggleEnabled="true" />
 
-    <com.example.storyapp.view.customView.MyEditTextPassword
+    <com.example.storyapp.ui.customView.MyEditTextPassword
         android:id="@+id/passwordEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
         app:startIconDrawable="@drawable/ic_baseline_lock_24" />
 
 
-    <com.example.storyapp.view.customView.MyButtonLogin
+    <com.example.storyapp.ui.customView.MyButtonLogin
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

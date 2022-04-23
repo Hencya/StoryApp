@@ -1,11 +1,11 @@
-package com.example.storyapp.view
+package com.example.storyapp.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.storyapp.data.preferences.LoginPreference
-import com.example.storyapp.view.login.LoginViewModel
-import com.example.storyapp.view.main.MainViewModel
-import com.example.storyapp.view.setting.SettingViewModel
+import com.example.storyapp.ui.login.LoginViewModel
+import com.example.storyapp.ui.main.MainViewModel
+import com.example.storyapp.ui.setting.SettingViewModel
 
 class ViewModelFactory(private val pref: LoginPreference) : ViewModelProvider.NewInstanceFactory() {
 

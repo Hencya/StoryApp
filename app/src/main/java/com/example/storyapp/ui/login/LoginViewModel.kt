@@ -1,4 +1,4 @@
-package com.example.storyapp.view.login
+package com.example.storyapp.ui.login
 
 import android.content.Context
 import android.util.Log

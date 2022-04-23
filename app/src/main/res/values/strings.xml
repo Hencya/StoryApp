@@ -39,4 +39,14 @@
     <string name="register_error">Register Gagal, Coba Isi Data Dengan Baik</string>
     <string name="title_welcome_elert_failed">Haduh Sayang Sekali Anda Tidak Berhasil Login. Silahkan Coba Lagi</string>
     <string name="logo_image">Gambar Logo</string>
+    <string name="image_story">Gambar Cerita</string>
+    <string name="name_user">Nama Pengguna</string>
+    <string name="item_createdAt">Diunggah Pada</string>
+    <string name="item_name">Nama Pengguna</string>
+    <string name="item_description">Deskripsi</string>
+    <string name="add_story">Menambah Cerita</string>
+    <string name="created_at">Diunggah Pada %1$s,</string>
+    <string name="hallo_user">Hallo, %1$s</string>
+    <string name="no_story">Belum Ada Cerita</string>
+    <string name="detail_title">Detail Cerita</string>
 </resources>

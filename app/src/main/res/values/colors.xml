@@ -21,4 +21,5 @@
     <color name="color_primary_variant">#272B33</color>
     <color name="button">#4352AF</color>
     <color name="button_disable">#a3c4f3</color>
+    <color name="gray">#ACACAC</color>
 </resources>
