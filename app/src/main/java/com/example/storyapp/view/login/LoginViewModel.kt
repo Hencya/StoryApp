@@ -22,7 +22,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("settings")
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("login_pref")
 
 class LoginViewModel(private val pref: LoginPreference) : ViewModel() {
 

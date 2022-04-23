@@ -15,7 +15,7 @@ import com.example.storyapp.databinding.ActivitySettingBinding
 import com.example.storyapp.view.ViewModelFactory
 import com.example.storyapp.view.welcome.WelcomeActivity
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "login_pref")
 
 class SettingActivity : AppCompatActivity() {
     private lateinit var settingViewModel: SettingViewModel

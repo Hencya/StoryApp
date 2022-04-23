@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
@@ -20,7 +22,7 @@ import com.example.storyapp.utils.ApiCallbackString
 import com.example.storyapp.view.ViewModelFactory
 import com.example.storyapp.view.main.MainActivity
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "USER_PREF")
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "login_pref")
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var loginViewModel: LoginViewModel
@@ -33,6 +35,7 @@ class LoginActivity : AppCompatActivity() {
 
         setupView()
         setupViewModel()
+        setMyButtonEnable()
         setupAction()
         showLoading()
     }
@@ -58,7 +61,28 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupAction() {
+        binding.emailEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            }
 
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                setMyButtonEnable()
+            }
+
+            override fun afterTextChanged(s: Editable) {
+            }
+        })
+        binding.passwordEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                setMyButtonEnable()
+            }
+
+            override fun afterTextChanged(s: Editable) {
+            }
+        })
         binding.loginButton.setOnClickListener {
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
@@ -81,6 +105,15 @@ class LoginActivity : AppCompatActivity() {
 
 
         }
+    }
+
+    private fun setMyButtonEnable() {
+        val Email = binding.emailEditText.text
+        val Pass = binding.passwordEditText.text
+
+        binding.loginButton.isEnabled =
+            Pass != null && Email != null && Email.toString().isNotEmpty() && Pass.toString()
+                .isNotEmpty()
     }
 
 

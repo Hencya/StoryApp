@@ -2,6 +2,8 @@ package com.example.storyapp.view.signUp
 
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
@@ -23,6 +25,7 @@ class SignUpActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupView()
+        setMyButtonEnable()
         setupAction()
         showLoading()
     }
@@ -41,6 +44,39 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun setupAction() {
+        binding.nameEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                setMyButtonEnable()
+            }
+
+            override fun afterTextChanged(s: Editable) {
+            }
+        })
+        binding.emailEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                setMyButtonEnable()
+            }
+
+            override fun afterTextChanged(s: Editable) {
+            }
+        })
+        binding.passwordEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                setMyButtonEnable()
+            }
+
+            override fun afterTextChanged(s: Editable) {
+            }
+        })
         binding.signUpButton.setOnClickListener {
             val name = binding.nameEditText.text.toString()
             val email = binding.emailEditText.text.toString()
@@ -62,6 +98,17 @@ class SignUpActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun setMyButtonEnable() {
+        val Name = binding.nameEditText.text
+        val Email = binding.emailEditText.text
+        val Pass = binding.passwordEditText.text
+
+        binding.signUpButton.isEnabled =
+            Name != null && Pass != null && Email != null && Name.toString()
+                .isNotEmpty() && Email.toString().isNotEmpty() && Pass.toString()
+                .isNotEmpty()
     }
 
     private fun showAlertDialog(success: Boolean, message: String) {
