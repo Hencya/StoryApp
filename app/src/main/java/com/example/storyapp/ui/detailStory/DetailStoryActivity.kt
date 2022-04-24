@@ -1,12 +1,15 @@
 package com.example.storyapp.ui.detailStory
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.storyapp.R
 import com.example.storyapp.data.remote.response.ListStoryItem
 import com.example.storyapp.databinding.ActivityDetailStoryBinding
+import com.example.storyapp.utils.formatDate
+import java.util.*
 
 class DetailStoryActivity : AppCompatActivity() {
     private lateinit var story: ListStoryItem
@@ -30,7 +33,13 @@ class DetailStoryActivity : AppCompatActivity() {
     private fun displayResult() {
         with(binding) {
             tvName.text = detailStoryViewModel.storyItem.name
-            tvCreatedAt.text = detailStoryViewModel.storyItem.createdAt
+            tvCreatedAt.text =
+                getString(
+                    R.string.created_at, formatDate(
+                        detailStoryViewModel.storyItem.createdAt,
+                        TimeZone.getDefault().id
+                    )
+                )
             tvDescription.text = detailStoryViewModel.storyItem.description
 
             Glide.with(ivImage)
@@ -38,8 +47,17 @@ class DetailStoryActivity : AppCompatActivity() {
                 .placeholder(R.drawable.ic_baseline_place_holder_24) // placeholder
                 .error(R.drawable.ic_baseline_broken_image_24) // while error
                 .fallback(R.drawable.ic_baseline_place_holder_24) // while null
-                .circleCrop() // Mengubah image menjadi lingkaran
                 .into(ivImage) // imageView mana yang akan diterapkan
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> true
         }
     }
 

@@ -1,8 +1,7 @@
 package com.example.storyapp.ui.adapter
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -13,20 +12,19 @@ import com.example.storyapp.data.remote.response.ListStoryItem
 import com.example.storyapp.databinding.ItemRowStoriesBinding
 import com.example.storyapp.ui.detailStory.DetailStoryActivity
 import com.example.storyapp.utils.StoryDiffCallback
+import com.example.storyapp.utils.formatDate
+import java.util.*
 
-class ListStoryAdapter(
+class ListStoryAdapter : RecyclerView.Adapter<ListStoryAdapter.ViewHolder>() {
 
-) :
-    RecyclerView.Adapter<ListStoryAdapter.ViewHolder>() {
-
-    private val listStories = ArrayList<ListStoryItem>()
+    private val listStory = java.util.ArrayList<ListStoryItem>()
 
     fun setListStory(itemStory: List<ListStoryItem>) {
-        val diffCallback = StoryDiffCallback(this.listStories, itemStory)
+        val diffCallback = StoryDiffCallback(this.listStory, itemStory)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
 
-        this.listStories.clear()
-        this.listStories.addAll(itemStory)
+        this.listStory.clear()
+        this.listStory.addAll(itemStory)
         diffResult.dispatchUpdatesTo(this)
     }
 
@@ -37,22 +35,25 @@ class ListStoryAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.onBind(listStories[position])
+        holder.bind(listStory[position])
     }
 
-    class ViewHolder(private var binding: ItemRowStoriesBinding) :
+    inner class ViewHolder(private var binding: ItemRowStoriesBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(story: ListStoryItem) {
+        fun bind(story: ListStoryItem) {
+            Log.d("Masuk Sini View holder", story.toString())
             Glide.with(binding.root.context)
                 .load(story.photoUrl) // URL Gambar
                 .placeholder(R.drawable.ic_baseline_place_holder_24) // placeholder
                 .error(R.drawable.ic_baseline_broken_image_24) // while error
                 .fallback(R.drawable.ic_baseline_place_holder_24) // while null
-                .circleCrop() // Mengubah image menjadi lingkaran
                 .into(binding.imgItemImage) // imageView mana yang akan diterapkan
             binding.tvItemName.text = story.name
             binding.tvItemDescription.text = story.description
-            binding.tvItemCreatedAt.text = story.createdAt
+            binding.tvItemCreatedAt.text = binding.root.resources.getString(
+                R.string.created_at,
+                formatDate(story.createdAt, TimeZone.getDefault().id)
+            )
             itemView.setOnClickListener {
                 val intent = Intent(it.context, DetailStoryActivity::class.java)
                 intent.putExtra(DetailStoryActivity.EXTRA_STORY, story)
@@ -61,5 +62,5 @@ class ListStoryAdapter(
         }
     }
 
-    override fun getItemCount(): Int = listStories.size
+    override fun getItemCount() = listStory.size
 }

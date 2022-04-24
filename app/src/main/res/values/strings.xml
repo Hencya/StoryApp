@@ -45,7 +45,7 @@
     <string name="item_name">Nama Pengguna</string>
     <string name="item_description">Deskripsi</string>
     <string name="add_story">Menambah Cerita</string>
-    <string name="created_at">Diunggah Pada %1$s,</string>
+    <string name="created_at">Diunggah Pada %1$s</string>
     <string name="hallo_user">Hallo, %1$s</string>
     <string name="no_story">Belum Ada Cerita</string>
     <string name="detail_title">Detail Cerita</string>

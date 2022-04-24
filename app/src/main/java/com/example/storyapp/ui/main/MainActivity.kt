@@ -11,7 +11,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.storyapp.R
 import com.example.storyapp.data.model.UserModel
@@ -25,13 +24,14 @@ import com.google.android.material.snackbar.Snackbar
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore("login_pref")
 
+
 class MainActivity : AppCompatActivity() {
+    private lateinit var user: UserModel
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding
-    private lateinit var user: UserModel
 
-    private lateinit var mainViewModel: MainViewModel
     private lateinit var adapter: ListStoryAdapter
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,12 +40,13 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.title = getString(R.string.main_title)
 
-        setupRecycleView()
         adapter = ListStoryAdapter()
-
         setupViewModel()
-        showLoading()
+
         setupAction()
+        setupRecycleView()
+        showSnackBar()
+        showLoading()
     }
 
 
@@ -70,31 +71,22 @@ class MainActivity : AppCompatActivity() {
             }
             binding?.tvName?.text = getString(R.string.hallo_user, user.name)
 
-            mainViewModel.isHaveData.observe(this) {
-                binding?.apply {
-                    if (it) {
-                        rvStories.visibility = View.VISIBLE
-                        tvInfo.visibility = View.GONE
-                    } else {
-                        rvStories.visibility = View.GONE
-                        tvInfo.visibility = View.VISIBLE
-                    }
-                }
-            }
-
             mainViewModel.showListStory(user.token)
             mainViewModel.itemStory.observe(this) {
                 adapter.setListStory(it)
             }
+        }
+    }
 
-            mainViewModel.snackBarText.observe(this) {
-                it.getContentIfNotHandled()?.let { snackBarText ->
-                    Snackbar.make(
-                        findViewById(R.id.rv_stories),
-                        snackBarText,
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
+
+    private fun showSnackBar() {
+        mainViewModel.snackBarText.observe(this) {
+            it.getContentIfNotHandled()?.let { snackBarText ->
+                Snackbar.make(
+                    findViewById(R.id.rv_stories),
+                    snackBarText,
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -109,9 +101,8 @@ class MainActivity : AppCompatActivity() {
     private fun setupRecycleView() {
         val layoutManager = LinearLayoutManager(this)
         binding?.rvStories?.layoutManager = layoutManager
-        val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
-        binding?.rvStories?.addItemDecoration(itemDecoration)
         binding?.rvStories?.setHasFixedSize(true)
+        binding?.rvStories?.adapter = adapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -148,5 +139,24 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mainViewModel.getUser().observe(this) {
+            user = UserModel(
+                it.userId,
+                it.name,
+                it.email,
+                it.password,
+                it.token,
+                true
+            )
+
+            mainViewModel.showListStory(user.token)
+            mainViewModel.itemStory.observe(this) {
+                adapter.setListStory(it)
+            }
+        }
     }
 }

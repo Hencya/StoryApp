@@ -25,22 +25,11 @@
         android:id="@+id/rv_stories"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="@+id/fragment_container"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/fragment_container"
         tools:listitem="@layout/item_row_stories" />
-
-    <TextView
-        android:id="@+id/tv_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/no_story"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_anchor="@+id/rv_stories"
-        app:layout_anchorGravity="center" />
 
     <FrameLayout
         android:id="@+id/fragment_container"

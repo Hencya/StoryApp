@@ -6,16 +6,20 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.util.Patterns
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.example.storyapp.R
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
-import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 private const val FILENAME_FORMAT = "dd-MMM-yyyy"
@@ -33,12 +37,14 @@ val timeStamp: String = SimpleDateFormat(
     Locale.US
 ).format(System.currentTimeMillis())
 
-
-fun String.withDateFormat(): String {
-    val format = SimpleDateFormat("dd/MM/yyyy", Locale.US)
-    val date = format.parse(this) as Date
-    return DateFormat.getDateInstance(DateFormat.FULL).format(date)
+@RequiresApi(Build.VERSION_CODES.O)
+fun formatDate(currentDateString: String, targetTimeZone: String): String {
+    val instant = Instant.parse(currentDateString)
+    val formatter = DateTimeFormatter.ofPattern("HH:mm, dd MMM yyyy")
+        .withZone(ZoneId.of(targetTimeZone))
+    return formatter.format(instant)
 }
+
 
 fun showToast(context: Context, message: String) {
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
