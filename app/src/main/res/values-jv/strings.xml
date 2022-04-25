@@ -9,6 +9,7 @@
 
     <string name="message_welcome_page">Nuduhake Crita sing Apik banget!!!</string>
     <string name="message_welcome_alert">Sugeng sampeyan wis kasil mlebu</string>
+    <string name="message_welcome_signup_alert">Sugeng sampeyan wis kasil dhaptar</string>
     <string name="message_upload_alert">Sugeng Rawuh Kasil Ngupload Crita</string>
     <string name="message_upload_failed_alert">Sayange sampeyan gagal ngunggah crita</string>
     <string name="message_login_page">Ketik data sampeyan dhisik</string>
@@ -18,7 +19,8 @@
     <string name="title_welcome_elert">Halo !!</string>
     <string name="title_signup_page">Rampungake Data Sampeyan Ngisor Ya</string>
     <string name="title_login_page">Siap Nuduhake Crita Sampeyan?</string>
-    <string name="title_welcome_elert_failed">Sayange sampeyan ora bisa mlebu kanthi sukses. Mangga nyoba maneh</string>
+    <string name="title_welcome_alert_failed">Sayange sampeyan ora bisa mlebu kanthi sukses. Mangga nyoba maneh</string>
+    <string name="title_welcome_register_alert_failed">Sayange sampeyan ora bisa dhapter kanthi sukses. Mangga nyoba maneh</string>
 
     <string name="signup">Dhaptar</string>
     <string name="login">Mlebu</string>

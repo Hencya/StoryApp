@@ -8,6 +8,7 @@
 
     <string name="message_welcome_page">Share Your Incredibly Fantastic Story!!!</string>
     <string name="message_welcome_alert">Congratulations you have successfully logged in</string>
+    <string name="message_welcome_signup_alert">Congratulations you have successfully Register</string>
     <string name="message_upload_alert">Congratulations You Successfully Uploaded Story</string>
     <string name="message_upload_failed_alert">Too bad you failed to upload the story</string>
     <string name="message_login_page">Enter your data first</string>
@@ -17,7 +18,8 @@
     <string name="title_welcome_elert">Hallo !!</string>
     <string name="title_signup_page">Complete Your Data Below Yes</string>
     <string name="title_login_page">Ready To Share Your Story?</string>
-    <string name="title_welcome_elert_failed">Too bad you can not login successfully. Please Try Again</string>
+    <string name="title_welcome_alert_failed">Too bad you can not login successfully. Please Try Again</string>
+    <string name="title_welcome_register_alert_failed">Too bad you can not register successfully. Please Try Again</string>
 
     <string name="signup">signUp</string>
     <string name="login">Login</string>

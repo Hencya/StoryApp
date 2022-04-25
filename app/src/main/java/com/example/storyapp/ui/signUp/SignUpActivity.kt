@@ -2,6 +2,7 @@ package com.example.storyapp.ui.signUp
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.storyapp.R
 import com.example.storyapp.databinding.ActivitySignUpBinding
+import com.example.storyapp.ui.welcome.WelcomeActivity
 import com.example.storyapp.utils.ApiCallbackString
 
 
@@ -153,8 +155,10 @@ class SignUpActivity : AppCompatActivity() {
         if (success) {
             AlertDialog.Builder(this).apply {
                 setTitle(getString(R.string.title_welcome_elert))
-                setMessage(getString(R.string.message_welcome_alert))
+                setMessage(getString(R.string.message_welcome_signup_alert))
                 setPositiveButton(getString(R.string.next_alert)) { _, _ ->
+                    val intent = Intent(context, WelcomeActivity::class.java)
+                    startActivity(intent)
                     finish()
                 }
                 create()
@@ -162,7 +166,7 @@ class SignUpActivity : AppCompatActivity() {
             }
         } else {
             AlertDialog.Builder(this).apply {
-                setTitle(getString(R.string.title_welcome_elert_failed))
+                setTitle(getString(R.string.title_welcome_register_alert_failed))
                 setMessage(getString(R.string.register_failed) + ", $message")
                 setPositiveButton(getString(R.string.next_alert)) { _, _ ->
                     binding.signUpProgressBar.visibility = View.GONE

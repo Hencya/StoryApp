@@ -9,6 +9,7 @@
 
     <string name="message_welcome_page">Bagikan Ceritamu Yang Sangat Fantastis Itu!!!</string>
     <string name="message_welcome_alert">Selamat Anda Berhasil Login</string>
+    <string name="message_welcome_signup_alert">Selamat Anda Berhasil SignUp</string>
     <string name="message_upload_alert">Selamat Anda Berhasil Mengunggah Cerita</string>
     <string name="message_upload_failed_alert">Sayang Sekali Anda Gagal Mengunggah Cerita</string>
     <string name="message_login_page">Masukkan Dulu Datamu Ya</string>
@@ -18,7 +19,8 @@
     <string name="title_welcome_elert">Hay !!</string>
     <string name="title_signup_page">Lengkapi Data Dirimu Di Bawah Ini Ya</string>
     <string name="title_login_page">Sudah Siap Untuk Membagikan Ceritamu?</string>
-    <string name="title_welcome_elert_failed">Sayang Sekali Anda Tidak Berhasil Login. Silahkan Coba Lagi</string>
+    <string name="title_welcome_alert_failed">Sayang Sekali Anda Tidak Berhasil Login. Silahkan Coba Lagi</string>
+    <string name="title_welcome_register_alert_failed">Sayang Sekali Anda Tidak Berhasil Register. Silahkan Coba Lagi</string>
 
     <string name="signup">Daftar</string>
     <string name="login">Masuk</string>

@@ -170,7 +170,7 @@ class LoginActivity : AppCompatActivity() {
             }
         } else {
             AlertDialog.Builder(this).apply {
-                setTitle(getString(R.string.title_welcome_elert_failed))
+                setTitle(getString(R.string.title_welcome_alert_failed))
                 setMessage(getString(R.string.login_failed) + ", $message")
                 setPositiveButton(getString(R.string.next_alert)) { _, _ ->
                     binding.loginProgressBar.visibility = View.GONE
