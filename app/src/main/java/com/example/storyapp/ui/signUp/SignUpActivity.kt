@@ -130,6 +130,8 @@ class SignUpActivity : AppCompatActivity() {
                     binding.signUpProgressBar.visibility = View.GONE
                     binding.imageView.visibility = View.VISIBLE
                     binding.titleTextView.visibility = View.VISIBLE
+                    binding.nameTextView.visibility = View.VISIBLE
+                    binding.nameEditText.visibility = View.VISIBLE
                     binding.emailTextView.visibility = View.VISIBLE
                     binding.emailEditText.visibility = View.VISIBLE
                     binding.passwordTextView.visibility = View.VISIBLE
@@ -149,6 +151,8 @@ class SignUpActivity : AppCompatActivity() {
                     signUpProgressBar.visibility = View.VISIBLE
                     imageView.visibility = View.GONE
                     titleTextView.visibility = View.GONE
+                    nameTextView.visibility = View.GONE
+                    nameEditText.visibility = View.GONE
                     emailTextView.visibility = View.GONE
                     emailEditText.visibility = View.GONE
                     passwordTextView.visibility = View.GONE
@@ -158,6 +162,8 @@ class SignUpActivity : AppCompatActivity() {
                     signUpProgressBar.visibility = View.GONE
                     imageView.visibility = View.VISIBLE
                     titleTextView.visibility = View.VISIBLE
+                    nameTextView.visibility = View.VISIBLE
+                    nameEditText.visibility = View.VISIBLE
                     emailTextView.visibility = View.VISIBLE
                     emailEditText.visibility = View.VISIBLE
                     passwordTextView.visibility = View.VISIBLE
