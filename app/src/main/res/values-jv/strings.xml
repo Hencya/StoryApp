@@ -51,6 +51,7 @@
     <string name="invalid_email">Email ora sah</string>
     <string name="invalid_password">Tembung sandhi kudu luwih saka 5 karakter</string>
     <string name="camera_permission_denied">Ora Entuk Persetujuan</string>
+    <string name="no_story">Durung ana crita</string>
 
     <string name="upload_success">Unggahan Sukses</string>
 

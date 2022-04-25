@@ -52,7 +52,7 @@ class MainViewModel(private val pref: LoginPreference) : ViewModel() {
                         if (!responseBody.error) {
                             _itemStory.value = response.body()?.listStory
                             _isHaveData.value =
-                                responseBody.message == "The Story Has Been Successfully Retrieved"
+                                responseBody.message == "Stories fetched successfully"
                         }
                     }
                 } else {

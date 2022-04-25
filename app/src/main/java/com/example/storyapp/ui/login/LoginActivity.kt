@@ -1,5 +1,7 @@
 package com.example.storyapp.ui.login
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -18,9 +20,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.storyapp.R
 import com.example.storyapp.data.preferences.LoginPreference
 import com.example.storyapp.databinding.ActivityLoginBinding
-import com.example.storyapp.utils.ApiCallbackString
 import com.example.storyapp.ui.ViewModelFactory
 import com.example.storyapp.ui.main.MainActivity
+import com.example.storyapp.utils.ApiCallbackString
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "login_pref")
 
@@ -38,6 +40,40 @@ class LoginActivity : AppCompatActivity() {
         setMyButtonEnable()
         setupAction()
         showLoading()
+        playAnimation()
+    }
+
+    private fun playAnimation() {
+        ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_X, -30f, 30f).apply {
+            duration = 6000
+            repeatCount = ObjectAnimator.INFINITE
+            repeatMode = ObjectAnimator.REVERSE
+        }.start()
+
+        val title = ObjectAnimator.ofFloat(binding.titleTextView, View.ALPHA, 1f).setDuration(500)
+        val messageTV =
+            ObjectAnimator.ofFloat(binding.messageTextView, View.ALPHA, 1f).setDuration(500)
+        val emailTV = ObjectAnimator.ofFloat(binding.emailTextView, View.ALPHA, 1f).setDuration(500)
+        val emailET =
+            ObjectAnimator.ofFloat(binding.emailEditText, View.ALPHA, 1f).setDuration(500)
+        val passwordTV =
+            ObjectAnimator.ofFloat(binding.passwordTextView, View.ALPHA, 1f).setDuration(500)
+        val passwordET =
+            ObjectAnimator.ofFloat(binding.passwordEditText, View.ALPHA, 1f).setDuration(500)
+        val login = ObjectAnimator.ofFloat(binding.loginButton, View.ALPHA, 1f).setDuration(500)
+
+        AnimatorSet().apply {
+            playSequentially(
+                title,
+                messageTV,
+                emailTV,
+                emailET,
+                passwordTV,
+                passwordET,
+                login
+            )
+            start()
+        }
     }
 
     private fun setupView() {

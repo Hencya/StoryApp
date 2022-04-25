@@ -15,6 +15,7 @@ import com.google.android.material.textfield.TextInputEditText
 class MyEditTextName : TextInputEditText, View.OnTouchListener {
 
     private lateinit var clearButton: Drawable
+    private lateinit var personIcon: Drawable
 
     constructor(context: Context) : super(context) {
         init()
@@ -42,6 +43,13 @@ class MyEditTextName : TextInputEditText, View.OnTouchListener {
     private fun init() {
         clearButton =
             ContextCompat.getDrawable(context, R.drawable.ic_baseline_close_24) as Drawable
+        personIcon =
+            ContextCompat.getDrawable(context, R.drawable.ic_baseline_person_24) as Drawable
+
+        setCompoundDrawablesWithIntrinsicBounds(
+            personIcon, null,
+            null, null
+        )
 
         setOnTouchListener(this)
 
@@ -68,13 +76,13 @@ class MyEditTextName : TextInputEditText, View.OnTouchListener {
 
     private fun showClearButton() {
         setCompoundDrawablesWithIntrinsicBounds(
-            null, null,
+            personIcon, null,
             clearButton, null
         )
     }
 
     private fun hideClearButton() {
-        setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+        setCompoundDrawablesWithIntrinsicBounds(personIcon, null, null, null)
     }
 
     override fun onTouch(v: View?, event: MotionEvent): Boolean {

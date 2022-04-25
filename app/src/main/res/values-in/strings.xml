@@ -51,6 +51,7 @@
     <string name="invalid_email">Email Tidak Sesuai</string>
     <string name="invalid_password">Password Harus Lebih Dari 5 Karakter</string>
     <string name="camera_permission_denied">Tidak Mendapatkan Persetujuan</string>
+    <string name="no_story">Cerita Belum Ada</string>
 
     <string name="upload_success">Sukses Mengupload</string>
 

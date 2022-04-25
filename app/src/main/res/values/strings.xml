@@ -50,6 +50,7 @@
     <string name="invalid_email">Invalid Email</string>
     <string name="invalid_password">Password Must Be More Than 5 Characters</string>
     <string name="camera_permission_denied">Not Getting Approval</string>
+    <string name="no_story">Story Doesnt Exist</string>
 
     <string name="upload_success">Uploading Success</string>
 
@@ -72,4 +73,5 @@
     <string name="item_createdAt">Uploaded On</string>
     <string name="item_name">Username</string>
     <string name="item_description">Description</string>
+
 </resources>

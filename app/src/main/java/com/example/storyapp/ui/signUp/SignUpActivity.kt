@@ -1,5 +1,7 @@
 package com.example.storyapp.ui.signUp
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -28,6 +30,42 @@ class SignUpActivity : AppCompatActivity() {
         setMyButtonEnable()
         setupAction()
         showLoading()
+        playAnimation()
+    }
+
+    private fun playAnimation() {
+        ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_X, -30f, 30f).apply {
+            duration = 6000
+            repeatCount = ObjectAnimator.INFINITE
+            repeatMode = ObjectAnimator.REVERSE
+        }.start()
+
+        val title = ObjectAnimator.ofFloat(binding.titleTextView, View.ALPHA, 1f).setDuration(500)
+        val nameTV = ObjectAnimator.ofFloat(binding.nameTextView, View.ALPHA, 1f).setDuration(500)
+        val nameET =
+            ObjectAnimator.ofFloat(binding.nameEditText, View.ALPHA, 1f).setDuration(500)
+        val emailTV = ObjectAnimator.ofFloat(binding.emailTextView, View.ALPHA, 1f).setDuration(500)
+        val emailET =
+            ObjectAnimator.ofFloat(binding.emailEditText, View.ALPHA, 1f).setDuration(500)
+        val passwordTV =
+            ObjectAnimator.ofFloat(binding.passwordTextView, View.ALPHA, 1f).setDuration(500)
+        val passwordET =
+            ObjectAnimator.ofFloat(binding.passwordEditText, View.ALPHA, 1f).setDuration(500)
+        val signup = ObjectAnimator.ofFloat(binding.signUpButton, View.ALPHA, 1f).setDuration(500)
+
+        AnimatorSet().apply {
+            playSequentially(
+                title,
+                nameTV,
+                nameET,
+                emailTV,
+                emailET,
+                passwordTV,
+                passwordET,
+                signup
+            )
+            start()
+        }
     }
 
     private fun setupView() {

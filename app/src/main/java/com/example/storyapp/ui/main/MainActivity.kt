@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         setupRecycleView()
         showSnackBar()
         showLoading()
+        showDataStatus()
     }
 
 
@@ -146,6 +147,20 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     progressBar.visibility = View.GONE
                     rvStories.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
+    private fun showDataStatus() {
+        mainViewModel.isHaveData.observe(this) {
+            binding?.apply {
+                if (it) {
+                    rvStories.visibility = View.VISIBLE
+                    tvInfo.visibility = View.GONE
+                } else {
+                    rvStories.visibility = View.GONE
+                    tvInfo.visibility = View.VISIBLE
                 }
             }
         }
