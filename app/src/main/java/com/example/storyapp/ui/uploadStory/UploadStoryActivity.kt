@@ -19,6 +19,7 @@ import com.example.storyapp.R
 import com.example.storyapp.data.model.UserModel
 import com.example.storyapp.databinding.ActivityUploadStoryBinding
 import com.example.storyapp.ui.camera.CameraActivity
+import com.example.storyapp.ui.main.MainActivity
 import com.example.storyapp.ui.setting.SettingActivity
 import com.example.storyapp.utils.ApiCallbackString
 import com.example.storyapp.utils.reduceFileImage
@@ -80,7 +81,6 @@ class UploadStoryActivity : AppCompatActivity() {
         }
 
         binding.cameraXButton.setOnClickListener { startCameraX() }
-//        binding.cameraButton.setOnClickListener { startTakePhoto() }
         binding.galleryButton.setOnClickListener { startGallery() }
         binding.uploadButton.setOnClickListener { uploadImage() }
 
@@ -104,22 +104,6 @@ class UploadStoryActivity : AppCompatActivity() {
         launcherIntentGallery.launch(chooser)
     }
 
-//    private fun startTakePhoto() {
-//        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//        intent.resolveActivity(packageManager)
-//
-//        createCustomTempFile(application).also {
-//            val photoURI: Uri = FileProvider.getUriForFile(
-//                this@UploadStoryActivity,
-//                "com.example.storyapp",
-//                it
-//            )
-//            currentPhotoPath = it.absolutePath
-//            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-//            launcherIntentCamera.launch(intent)
-//        }
-//    }
-
     private fun startCameraX() {
         val intent = Intent(this, CameraActivity::class.java)
         launcherIntentCameraX.launch(intent)
@@ -138,18 +122,6 @@ class UploadStoryActivity : AppCompatActivity() {
                 isBackCamera
             )
 
-            binding.previewImageView.setImageBitmap(result)
-        }
-    }
-
-    private val launcherIntentCamera = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {
-        if (it.resultCode == RESULT_OK) {
-            val myFile = File(currentPhotoPath)
-            getFile = myFile
-
-            val result = BitmapFactory.decodeFile(getFile?.path)
             binding.previewImageView.setImageBitmap(result)
         }
     }
@@ -202,14 +174,9 @@ class UploadStoryActivity : AppCompatActivity() {
     private fun showAlertDialog(isSuccess: Boolean, message: String) {
         if (isSuccess) {
             AlertDialog.Builder(this).apply {
-                setTitle(getString(R.string.upload_success))
-                setMessage(getString(R.string.message_upload_alert))
-                setPositiveButton(getString(R.string.next_alert)) { _, _ ->
-
-                }
+                val intent = Intent(context, MainActivity::class.java)
+                startActivity(intent)
                 finish()
-                create()
-                show()
             }
         } else {
             AlertDialog.Builder(this).apply {
