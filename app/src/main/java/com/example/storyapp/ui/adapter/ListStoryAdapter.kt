@@ -1,9 +1,14 @@
 package com.example.storyapp.ui.adapter
 
+import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -34,12 +39,14 @@ class ListStoryAdapter : RecyclerView.Adapter<ListStoryAdapter.ViewHolder>() {
         return ViewHolder(binding)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(listStory[position])
     }
 
-    inner class ViewHolder(private var binding: ItemRowStoriesBinding) :
+    class ViewHolder(private var binding: ItemRowStoriesBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(story: ListStoryItem) {
             Log.d("Masuk Sini View holder", story.toString())
             Glide.with(binding.root.context)
@@ -57,7 +64,18 @@ class ListStoryAdapter : RecyclerView.Adapter<ListStoryAdapter.ViewHolder>() {
             itemView.setOnClickListener {
                 val intent = Intent(it.context, DetailStoryActivity::class.java)
                 intent.putExtra(DetailStoryActivity.EXTRA_STORY, story)
-                it.context.startActivity(intent)
+
+                val optionsCompat: ActivityOptionsCompat =
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        itemView.context as Activity,
+                        Pair(binding.imgItemImage, "photo"),
+                        Pair(binding.tvItemName, "name"),
+                        Pair(binding.tvItemDescription, "description"),
+                        Pair(binding.tvItemCreatedAt, "createdAt"),
+                    )
+                it.context.startActivity(intent, optionsCompat.toBundle())
+//                itemView.context.startActivity(intent, optionsCompat.toBundle())
+
             }
         }
     }

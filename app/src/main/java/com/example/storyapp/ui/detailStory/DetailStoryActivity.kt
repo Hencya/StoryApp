@@ -1,9 +1,11 @@
 package com.example.storyapp.ui.detailStory
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.storyapp.R
@@ -13,6 +15,7 @@ import com.example.storyapp.ui.setting.SettingActivity
 import com.example.storyapp.utils.formatDate
 import java.util.*
 
+@RequiresApi(Build.VERSION_CODES.O)
 class DetailStoryActivity : AppCompatActivity() {
     private lateinit var story: ListStoryItem
     private lateinit var binding: ActivityDetailStoryBinding
@@ -32,7 +35,7 @@ class DetailStoryActivity : AppCompatActivity() {
         displayResult()
     }
 
-
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun displayResult() {
         with(binding) {
             tvName.text = detailStoryViewModel.storyItem.name
