@@ -3,6 +3,7 @@ package com.example.storyapp.ui.setting
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
@@ -53,6 +54,9 @@ class SettingActivity : AppCompatActivity() {
     private fun setupAction() {
         binding.logoutButton.setOnClickListener {
             settingViewModel.logout()
+        }
+        binding.changeLanguageButton.setOnClickListener {
+            startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
         }
     }
 

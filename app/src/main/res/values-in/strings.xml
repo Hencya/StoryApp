@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">StoryApp</string>
+
+    <string name="main_title">StoryUS</string>
+    <string name="setting_title">Pengaturan</string>
+    <string name="detail_title">Detail Cerita</string>
+    <string name="upload_story_title">Unggah Cerita</string>
+
+    <string name="message_welcome_page">Bagikan Ceritamu Yang Sangat Fantastis Itu!!!</string>
+    <string name="message_welcome_alert">Selamat Anda Berhasil Login</string>
+    <string name="message_upload_alert">Selamat Anda Berhasil Mengunggah Cerita</string>
+    <string name="message_upload_failed_alert">Sayang Sekali Anda Gagal Mengunggah Cerita</string>
+    <string name="message_login_page">Masukkan Dulu Datamu Ya</string>
+    <string name="message_main_page">Selamat Berbagi Cerita Di StoryUS</string>
+
+    <string name="title_welcome_page">Selamat Datang Di StoryUS!!</string>
+    <string name="title_welcome_elert">Hay !!</string>
+    <string name="title_signup_page">Lengkapi Data Dirimu Di Bawah Ini Ya</string>
+    <string name="title_login_page">Sudah Siap Untuk Membagikan Ceritamu?</string>
+    <string name="title_welcome_elert_failed">Sayang Sekali Anda Tidak Berhasil Login. Silahkan Coba Lagi</string>
+
+    <string name="signup">Daftar</string>
+    <string name="login">Masuk</string>
+    <string name="logout">Keluar</string>
+    <string name="next_alert">Lanjut</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="name">Nama</string>
+    <string name="menu_setting">Pengaturan</string>
+    <string name="submit">Submit</string>
+    <string name="copyright">© 2022 Faiz Rofi Hencya</string>
+    <string name="greeting">Halo %1$s,</string>
+    <string name="camera">kamera</string>
+    <string name="gallery">Galeri</string>
+    <string name="upload">Unggah</string>
+    <string name="add_story">Menambah Cerita</string>
+    <string name="created_at">Diunggah Pada %1$s</string>
+    <string name="hallo_user">Hay, %1$s</string>
+    <string name="choose_picture">Pilih Gambar</string>
+    <string name="description">Deskripsi</string>
+    <string name="change_language">Ganti Bahasa</string>
+
+    <string name="login_failed">Login Gagal</string>
+    <string name="register_failed">Register Gagal</string>
+    <string name="start_camera_failed">Gagal Memunculkan Kamera</string>
+    <string name="take_photo_failed">Gagal Mengambil Gambar</string>
+    <string name="upload_failed">Gagal Mengupload</string>
+    <string name="login_error">Email Atau Password Tidak Tidak Ditemukan</string>
+    <string name="register_error">Register Gagal, Coba Isi Data Dengan Baik</string>
+    <string name="invalid_email">Email Tidak Sesuai</string>
+    <string name="invalid_password">Password Harus Lebih Dari 5 Karakter</string>
+    <string name="camera_permission_denied">Tidak Mendapatkan Persetujuan</string>
+
+    <string name="upload_success">Sukses Mengupload</string>
+
+    <string name="empty_email">Field Email Harus Diisi</string>
+    <string name="empty_password">Field Password Harus Diisi</string>
+    <string name="empty_name">Field Nama Harus Diisi</string>
+    <string name="fill_all">Isi Dahulu !!!</string>
+
+    <string name="input_email">Masukan Email</string>
+    <string name="input_password">Masukan Password</string>
+    <string name="hint_name">Masukan Nama Anda</string>
+    <string name="hint_email">Masukan Email Anda</string>
+    <string name="attach_file_warning">Silakan Masukkan Berkas Gambar Terlebih Dahulu</string>
+    <string name="hint_password">******</string>
+
+    <string name="logo_image">Gambar Logo</string>
+    <string name="image_story">Gambar Cerita</string>
+    <string name="name_user">Nama Pengguna</string>
+
+    <string name="item_createdAt">Diunggah Pada</string>
+    <string name="item_name">Nama Pengguna</string>
+    <string name="item_description">Deskripsi</string>
+</resources>

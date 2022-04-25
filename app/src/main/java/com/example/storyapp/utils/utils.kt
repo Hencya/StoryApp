@@ -8,8 +8,6 @@ import android.graphics.Matrix
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
-import android.util.Patterns
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.example.storyapp.R
 import java.io.ByteArrayOutputStream
@@ -28,10 +26,6 @@ interface ApiCallbackString {
     fun onResponse(success: Boolean, message: String)
 }
 
-fun isEmailValid(email: CharSequence): Boolean {
-    return Patterns.EMAIL_ADDRESS.matcher(email).matches()
-}
-
 val timeStamp: String = SimpleDateFormat(
     FILENAME_FORMAT,
     Locale.US
@@ -44,12 +38,6 @@ fun formatDate(currentDateString: String, targetTimeZone: String): String {
         .withZone(ZoneId.of(targetTimeZone))
     return formatter.format(instant)
 }
-
-
-fun showToast(context: Context, message: String) {
-    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-}
-
 
 fun createCustomTempFile(context: Context): File {
     val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
@@ -88,22 +76,6 @@ fun reduceFileImage(file: File): File {
     return file
 }
 
-fun reduceFileImageCameraX(file: File, isBackCamera: Boolean): File {
-    var bitmap = BitmapFactory.decodeFile(file.path)
-    bitmap = rotateBitmap(bitmap, isBackCamera)
-    var compressQuality = 100
-    var streamLength: Int
-    do {
-        val bmpStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpStream)
-        val bmpPicByteArray = bmpStream.toByteArray()
-        streamLength = bmpPicByteArray.size
-        compressQuality -= 5
-    } while (streamLength > 1000000)
-    bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(file))
-    return file
-}
-
 fun createFile(application: Application): File {
     val mediaDir = application.externalMediaDirs.firstOrNull()?.let {
         File(it, application.resources.getString(R.string.app_name)).apply { mkdirs() }
@@ -119,7 +91,7 @@ fun createFile(application: Application): File {
 fun rotateBitmap(bitmap: Bitmap, isBackCamera: Boolean = false): Bitmap {
     val matrix = Matrix()
     return if (isBackCamera) {
-        matrix.postRotate(90f)
+//        matrix.postRotate(90f)
         Bitmap.createBitmap(
             bitmap,
             0,
@@ -130,8 +102,8 @@ fun rotateBitmap(bitmap: Bitmap, isBackCamera: Boolean = false): Bitmap {
             true
         )
     } else {
-        matrix.postRotate(-90f)
-        matrix.postScale(-1f, 1f, bitmap.width / 2f, bitmap.height / 2f)
+//        matrix.postRotate(-90f)
+//        matrix.postScale(-1f, 1f, bitmap.width / 2f, bitmap.height / 2f)
         Bitmap.createBitmap(
             bitmap,
             0,

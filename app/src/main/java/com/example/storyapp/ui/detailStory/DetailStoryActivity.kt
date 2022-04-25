@@ -1,5 +1,6 @@
 package com.example.storyapp.ui.detailStory
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -8,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.storyapp.R
 import com.example.storyapp.data.remote.response.ListStoryItem
 import com.example.storyapp.databinding.ActivityDetailStoryBinding
+import com.example.storyapp.ui.setting.SettingActivity
 import com.example.storyapp.utils.formatDate
 import java.util.*
 
@@ -29,6 +31,7 @@ class DetailStoryActivity : AppCompatActivity() {
         detailStoryViewModel.setDetailStory(story)
         displayResult()
     }
+
 
     private fun displayResult() {
         with(binding) {
@@ -57,7 +60,12 @@ class DetailStoryActivity : AppCompatActivity() {
                 onBackPressed()
                 true
             }
-            else -> true
+            R.id.menu_setting -> {
+                val settingActivityIntent = Intent(this, SettingActivity::class.java)
+                startActivity(settingActivityIntent)
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

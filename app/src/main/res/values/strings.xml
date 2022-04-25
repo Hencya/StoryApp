@@ -2,51 +2,74 @@
     <string name="app_name">StoryApp</string>
 
     <string name="main_title">StoryUS</string>
-    <string name="setting_title">Settings</string>
-    <string name="signup">Daftar</string>
-    <string name="login">Masuk</string>
-    <string name="message_welcome_page">Bagikan ceritamu yang sangat fantastis itu!!!</string>
-    <string name="message_welcome_alert">Anda berhasil login. Sudah tidak sabar untuk membargikan cerita anda?</string>
-    <string name="title_welcome_page">Selamat datang di StoryUS!</string>
+    <string name="setting_title">Setting</string>
+    <string name="detail_title">Story Details</string>
+    <string name="upload_story_title">Upload Story</string>
+
+    <string name="message_welcome_page">Share Your Incredibly Fantastic Story!!!</string>
+    <string name="message_welcome_alert">Congratulations you have successfully logged in</string>
+    <string name="message_upload_alert">Congratulations You Successfully Uploaded Story</string>
+    <string name="message_upload_failed_alert">Too bad you failed to upload the story</string>
+    <string name="message_login_page">Enter your data first</string>
+    <string name="message_main_page">Happy Sharing Stories on StoryUS</string>
+
+    <string name="title_welcome_page">Welcome to StoryUS!!</string>
     <string name="title_welcome_elert">Hallo !!</string>
-    <string name="next_alert">Lanjut</string>
-    <string name="title_signup_page">Lengkapi data dirimu di bawah ini ya</string>
+    <string name="title_signup_page">Complete Your Data Below Yes</string>
+    <string name="title_login_page">Ready To Share Your Story?</string>
+    <string name="title_welcome_elert_failed">Too bad you can not login successfully. Please Try Again</string>
+
+    <string name="signup">signUp</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="next_alert">Next</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="message_login_page">Masukkan dulu datamu ya</string>
-    <string name="title_login_page">Sudah siap untuk membagikan ceritamu?</string>
-    <string name="name">Nama</string>
-    <string name="copyright">© 2022 Faiz Rofi Hencya</string>
-    <string name="message_main_page">Selamat Berbagi Cerita di StoryUS.</string>
-    <string name="greeting">Halo %1$s,</string>
-    <string name="logout">Keluar</string>
+    <string name="name">Name</string>
     <string name="menu_setting">Setting</string>
     <string name="submit">Submit</string>
-    <string name="invalid_email">Email Tidak Sesuai</string>
-    <string name="invalid_password">Password Harus Lebih Dari 5 Karakter</string>
-    <string name="empty_email">Field Email Harus Diisi</string>
-    <string name="empty_password">Field Password Harus Diisi</string>
-    <string name="empty_name">Field Nama Harus Diisi</string>
-    <string name="fill_all">Isi Dahulu !!!</string>
-    <string name="input_email">Masukan Email</string>
-    <string name="input_password">Masukan Password</string>
-    <string name="hint_name">Masukan Nama Anda</string>
-    <string name="hint_email">Masukan Email Anda</string>
-    <string name="hint_password">******</string>
-    <string name="login_error">Email atau Password Tidak Tidak Ditemukan</string>
-    <string name="login_failed">Login Gagal</string>
-    <string name="register_failed">Register Gagal</string>
-    <string name="register_error">Register Gagal, Coba Isi Data Dengan Baik</string>
-    <string name="title_welcome_elert_failed">Haduh Sayang Sekali Anda Tidak Berhasil Login. Silahkan Coba Lagi</string>
-    <string name="logo_image">Gambar Logo</string>
-    <string name="image_story">Gambar Cerita</string>
-    <string name="name_user">Nama Pengguna</string>
-    <string name="item_createdAt">Diunggah Pada</string>
-    <string name="item_name">Nama Pengguna</string>
-    <string name="item_description">Deskripsi</string>
-    <string name="add_story">Menambah Cerita</string>
-    <string name="created_at">Diunggah Pada %1$s</string>
+    <string name="copyright">© 2022 Faiz Rofi Hencya</string>
+    <string name="greeting">Halo %1$s,</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="upload">Upload</string>
+    <string name="add_story">Add Story</string>
+    <string name="created_at">Uploaded On %1$s</string>
     <string name="hallo_user">Hallo, %1$s</string>
-    <string name="no_story">Belum Ada Cerita</string>
-    <string name="detail_title">Detail Cerita</string>
+    <string name="choose_picture">Select Image</string>
+    <string name="description">Description</string>
+    <string name="change_language">Change Language</string>
+
+    <string name="login_failed">Login Failed</string>
+    <string name="register_failed">Register Failed</string>
+    <string name="start_camera_failed">Failed To Bring Up Camera</string>
+    <string name="take_photo_failed">Gagal Mengambil Gambar</string>
+    <string name="upload_failed">Failed to Take Picture</string>
+    <string name="login_error">Email Atau Password Tidak Tidak Ditemukan</string>
+    <string name="register_error">Email Or Password Not Found</string>
+    <string name="invalid_email">Invalid Email</string>
+    <string name="invalid_password">Password Must Be More Than 5 Characters</string>
+    <string name="camera_permission_denied">Not Getting Approval</string>
+
+    <string name="upload_success">Uploading Success</string>
+
+    <string name="empty_email">Email Field Required</string>
+    <string name="empty_password">Password Field Required</string>
+    <string name="empty_name">Name Field Required</string>
+    <string name="fill_all">Fill First !!!</string>
+
+    <string name="input_email">Enter Email</string>
+    <string name="input_password">Enter Password</string>
+    <string name="hint_name">Enter Your Name</string>
+    <string name="hint_email">Enter Your email</string>
+    <string name="attach_file_warning">Please Attached Image Files First</string>
+    <string name="hint_password">******</string>
+
+    <string name="logo_image">Logo Image</string>
+    <string name="image_story">Story Image</string>
+    <string name="name_user">Username</string>
+
+    <string name="item_createdAt">Uploaded On</string>
+    <string name="item_name">Username</string>
+    <string name="item_description">Description</string>
 </resources>

@@ -22,7 +22,7 @@ interface ApiService {
     @POST("stories")
     fun uploadStory(
         @Header("Authorization") token: String,
-        @Part("description") des: RequestBody,
+        @Part("description") description: String,
         @Part file: MultipartBody.Part
     ): Call<UploadResponse>
 

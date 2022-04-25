@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">StoryApp</string>
+
+    <string name="main_title">StoryUS</string>
+    <string name="setting_title">Tatanan</string>
+    <string name="detail_title">Rincian crita</string>
+    <string name="upload_story_title">Upload Crita</string>
+
+    <string name="message_welcome_page">Nuduhake Crita sing Apik banget!!!</string>
+    <string name="message_welcome_alert">Sugeng sampeyan wis kasil mlebu</string>
+    <string name="message_upload_alert">Sugeng Rawuh Kasil Ngupload Crita</string>
+    <string name="message_upload_failed_alert">Sayange sampeyan gagal ngunggah crita</string>
+    <string name="message_login_page">Ketik data sampeyan dhisik</string>
+    <string name="message_main_page">Seneng Nuduhake Crita ing StoryUS</string>
+
+    <string name="title_welcome_page">Sugeng rawuh ing StoryUS!!</string>
+    <string name="title_welcome_elert">Halo !!</string>
+    <string name="title_signup_page">Rampungake Data Sampeyan Ngisor Ya</string>
+    <string name="title_login_page">Siap Nuduhake Crita Sampeyan?</string>
+    <string name="title_welcome_elert_failed">Sayange sampeyan ora bisa mlebu kanthi sukses. Mangga nyoba maneh</string>
+
+    <string name="signup">Dhaptar</string>
+    <string name="login">Mlebu</string>
+    <string name="logout">Metu</string>
+    <string name="next_alert">terus</string>
+    <string name="email">Email</string>
+    <string name="password">Sandi</string>
+    <string name="name">Jeneng</string>
+    <string name="menu_setting">Tatanan</string>
+    <string name="submit">Kirimake</string>
+    <string name="copyright">© 2022 Faiz Rofi Hencya</string>
+    <string name="greeting">Halo %1$s,</string>
+    <string name="camera">kamera</string>
+    <string name="gallery">Galeri</string>
+    <string name="upload">Upload</string>
+    <string name="add_story">Tambah Crita</string>
+    <string name="created_at">Diunggahake On %1$s</string>
+    <string name="hallo_user">Halo, %1$s</string>
+    <string name="choose_picture">Pilih Gambar</string>
+    <string name="description">Katrangan</string>
+    <string name="change_language">Ganti basa</string>
+
+    <string name="login_failed">Gagal Mlebet</string>
+    <string name="register_failed">Gagal Register</string>
+    <string name="start_camera_failed">Gagal Nggawe Kamera</string>
+    <string name="take_photo_failed">Gagal Njupuk Gambar</string>
+    <string name="upload_failed">Gagal Ngunggah</string>
+    <string name="login_error">Email Utawa Sandi Ora Ditemokake</string>
+    <string name="register_error">Registrasi Gagal, Coba Isi Data kanthi apik</string>
+    <string name="invalid_email">Email ora sah</string>
+    <string name="invalid_password">Tembung sandhi kudu luwih saka 5 karakter</string>
+    <string name="camera_permission_denied">Ora Entuk Persetujuan</string>
+
+    <string name="upload_success">Unggahan Sukses</string>
+
+    <string name="empty_email">Email Field dibutuhake</string>
+    <string name="empty_password">Sandi Field dibutuhake</string>
+    <string name="empty_name">Jeneng Field dibutuhake</string>
+    <string name="fill_all">Isi dhisik !!!</string>
+
+    <string name="input_email">Ketik Email</string>
+    <string name="input_password">Ketik Sandi</string>
+    <string name="hint_name">Ketik Jeneng Panjenengan</string>
+    <string name="hint_email">Ketik Email sampeyan</string>
+    <string name="attach_file_warning">Mangga Lebokake File Gambar dhisik</string>
+    <string name="hint_password">******</string>
+
+    <string name="logo_image">Gambar Logo</string>
+    <string name="image_story">Gambar Crita</string>
+    <string name="name_user">Jeneng panganggo</string>
+
+    <string name="item_createdAt">Diunggahake On</string>
+    <string name="item_name">Jeneng panganggo</string>
+    <string name="item_description">Katrangan</string>
+</resources>

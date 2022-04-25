@@ -19,6 +19,7 @@ import com.example.storyapp.databinding.ActivityMainBinding
 import com.example.storyapp.ui.ViewModelFactory
 import com.example.storyapp.ui.adapter.ListStoryAdapter
 import com.example.storyapp.ui.setting.SettingActivity
+import com.example.storyapp.ui.uploadStory.UploadStoryActivity
 import com.example.storyapp.ui.welcome.WelcomeActivity
 import com.google.android.material.snackbar.Snackbar
 
@@ -93,9 +94,23 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun setupAction() {
-//        binding.logoutButton.setOnClickListener {
-//            mainViewModel.logout()
-//        }
+        binding?.fabAdd?.setOnClickListener { view ->
+            if (view.id == R.id.fab_add) {
+                mainViewModel.getUser().observe(this) {
+                    user = UserModel(
+                        it.userId,
+                        it.name,
+                        it.email,
+                        it.password,
+                        it.token,
+                        true
+                    )
+                    val intent = Intent(this@MainActivity, UploadStoryActivity::class.java)
+                    intent.putExtra(UploadStoryActivity.DATA_USER, user)
+                    startActivity(intent)
+                }
+            }
+        }
     }
 
     private fun setupRecycleView() {
@@ -159,4 +174,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
 }
