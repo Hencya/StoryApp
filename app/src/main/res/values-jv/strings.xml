@@ -59,6 +59,7 @@
 
     <string name="empty_email">Email Field dibutuhake</string>
     <string name="empty_password">Sandi Field dibutuhake</string>
+    <string name="empty_description">Deskripsi Field dibutuhake</string>
     <string name="empty_name">Jeneng Field dibutuhake</string>
     <string name="fill_all">Isi dhisik !!!</string>
 

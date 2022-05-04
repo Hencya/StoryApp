@@ -25,7 +25,6 @@ import com.google.android.material.snackbar.Snackbar
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore("login_pref")
 
-
 class MainActivity : AppCompatActivity() {
     private lateinit var user: UserModel
     private var _binding: ActivityMainBinding? = null
@@ -58,24 +57,38 @@ class MainActivity : AppCompatActivity() {
             ViewModelFactory(LoginPreference.getInstance(dataStore))
         )[MainViewModel::class.java]
 
-        mainViewModel.getUser().observe(this) {
-            user = UserModel(
-                it.userId,
-                it.name,
-                it.email,
-                it.password,
-                it.token,
-                true
-            )
-            if (!user.isLoggedIn) {
+//        mainViewModel.getUser().observe(this) {
+//            user = UserModel(
+//                it.userId,
+//                it.name,
+//                it.email,
+//                it.password,
+//                it.token,
+//                true
+//            )
+//            if (!user.isLoggedIn) {
+//                startActivity(Intent(this, WelcomeActivity::class.java))
+//                finish()
+//            } else {
+//                binding?.tvName?.text = getString(R.string.hallo_user, user.name)
+//
+//                mainViewModel.showListStory(user.token)
+//                mainViewModel.itemStory.observe(this) {
+//                    adapter.setListStory(it)
+//                }
+//            }
+//        }
+        mainViewModel.getUser().observe(this) { user ->
+            if (user.isLoggedIn) {
+                binding?.tvName?.text = getString(R.string.hallo_user, user.name)
+
+                mainViewModel.showListStory(user.token)
+                mainViewModel.itemStory.observe(this) {
+                    adapter.setListStory(it)
+                }
+            } else {
                 startActivity(Intent(this, WelcomeActivity::class.java))
                 finish()
-            }
-            binding?.tvName?.text = getString(R.string.hallo_user, user.name)
-
-            mainViewModel.showListStory(user.token)
-            mainViewModel.itemStory.observe(this) {
-                adapter.setListStory(it)
             }
         }
     }

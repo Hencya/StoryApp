@@ -59,6 +59,7 @@
 
     <string name="empty_email">Field Email Harus Diisi</string>
     <string name="empty_password">Field Password Harus Diisi</string>
+    <string name="empty_description">Field Deskripsi Harus Diisi</string>
     <string name="empty_name">Field Nama Harus Diisi</string>
     <string name="fill_all">Isi Dahulu !!!</string>
 

@@ -141,11 +141,20 @@ class UploadStoryActivity : AppCompatActivity() {
     }
 
     private fun uploadImage() {
+
+        val description =
+            binding.descriptionEditText.text.toString()
+
+        if (description.isEmpty()) {
+            binding.descriptionEditText.error = getString(R.string.empty_description)
+            return
+        }
+
         if (getFile != null) {
             val file = reduceFileImage(getFile as File)
 
-            val description =
-                binding.descriptionEditText.text.toString()
+//            val description =
+//                binding.descriptionEditText.text.toString()
             val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
             val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
                 "photo",

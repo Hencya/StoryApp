@@ -57,6 +57,7 @@
     <string name="upload_success">Uploading Success</string>
 
     <string name="empty_email">Email Field Required</string>
+    <string name="empty_description">Description Field Required</string>
     <string name="empty_password">Password Field Required</string>
     <string name="empty_name">Name Field Required</string>
     <string name="fill_all">Fill First !!!</string>
