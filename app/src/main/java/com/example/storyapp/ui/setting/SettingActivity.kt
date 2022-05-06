@@ -42,9 +42,7 @@ class SettingActivity : AppCompatActivity() {
         )[SettingViewModel::class.java]
 
         settingViewModel.getUser().observe(this) { user ->
-            if (user.isLoggedIn) {
-//                binding.nameTextView.text = getString(R.string.greeting, user.name)
-            } else {
+            if (!user.isLoggedIn) {
                 startActivity(Intent(this, WelcomeActivity::class.java))
                 finish()
             }
@@ -54,6 +52,7 @@ class SettingActivity : AppCompatActivity() {
     private fun setupAction() {
         binding.logoutButton.setOnClickListener {
             settingViewModel.logout()
+            finish()
         }
         binding.changeLanguageButton.setOnClickListener {
             startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))

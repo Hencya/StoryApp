@@ -74,8 +74,6 @@ class ListStoryAdapter : RecyclerView.Adapter<ListStoryAdapter.ViewHolder>() {
                         Pair(binding.tvItemCreatedAt, "createdAt"),
                     )
                 it.context.startActivity(intent, optionsCompat.toBundle())
-//                itemView.context.startActivity(intent, optionsCompat.toBundle())
-
             }
         }
     }

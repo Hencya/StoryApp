@@ -25,9 +25,11 @@ import com.example.storyapp.utils.ApiCallbackString
 import com.example.storyapp.utils.reduceFileImage
 import com.example.storyapp.utils.rotateBitmap
 import com.example.storyapp.utils.uriToFile
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
 class UploadStoryActivity : AppCompatActivity() {
@@ -153,8 +155,6 @@ class UploadStoryActivity : AppCompatActivity() {
         if (getFile != null) {
             val file = reduceFileImage(getFile as File)
 
-//            val description =
-//                binding.descriptionEditText.text.toString()
             val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
             val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
                 "photo",
@@ -164,7 +164,7 @@ class UploadStoryActivity : AppCompatActivity() {
 
             uploadStoryViewModel.uploadImage(
                 user,
-                description,
+                description.toRequestBody("text/plain".toMediaType()),
                 imageMultipart,
                 object : ApiCallbackString {
                     override fun onResponse(success: Boolean, message: String) {

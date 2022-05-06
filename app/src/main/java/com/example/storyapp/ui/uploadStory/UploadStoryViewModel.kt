@@ -9,6 +9,7 @@ import com.example.storyapp.data.remote.response.UploadResponse
 import com.example.storyapp.data.remote.retrofit.ApiConfig
 import com.example.storyapp.utils.ApiCallbackString
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import org.json.JSONObject
 import org.json.JSONTokener
 import retrofit2.Call
@@ -21,7 +22,7 @@ class UploadStoryViewModel : ViewModel() {
 
     fun uploadImage(
         user: UserModel,
-        description: String,
+        description: RequestBody,
         imageMultipart: MultipartBody.Part,
         callback: ApiCallbackString
     ) {
