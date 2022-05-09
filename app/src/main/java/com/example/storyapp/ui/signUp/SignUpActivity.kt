@@ -16,12 +16,16 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.storyapp.R
 import com.example.storyapp.data.ResultResponse
 import com.example.storyapp.databinding.ActivitySignUpBinding
+import com.example.storyapp.ui.ViewModelFactory
 import com.example.storyapp.ui.welcome.WelcomeActivity
 
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
-    private val signupViewModel by viewModels<SignUpViewModel>()
+    private val signupViewModel: SignUpViewModel by viewModels {
+        ViewModelFactory.getInstance(this)
+    }
+//    private val signupViewModel by viewModels<SignUpViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
