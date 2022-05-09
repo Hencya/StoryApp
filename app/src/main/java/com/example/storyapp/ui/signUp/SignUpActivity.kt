@@ -25,7 +25,6 @@ class SignUpActivity : AppCompatActivity() {
     private val signupViewModel: SignUpViewModel by viewModels {
         ViewModelFactory.getInstance(this)
     }
-//    private val signupViewModel by viewModels<SignUpViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
