@@ -6,9 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
-import androidx.annotation.RequiresApi
 import com.example.storyapp.R
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -22,16 +20,11 @@ import java.util.*
 
 private const val FILENAME_FORMAT = "dd-MMM-yyyy"
 
-interface ApiCallbackString {
-    fun onResponse(success: Boolean, message: String)
-}
-
 val timeStamp: String = SimpleDateFormat(
     FILENAME_FORMAT,
     Locale.US
 ).format(System.currentTimeMillis())
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun formatDate(currentDateString: String, targetTimeZone: String): String {
     val instant = Instant.parse(currentDateString)
     val formatter = DateTimeFormatter.ofPattern("HH:mm, dd MMM yyyy")
@@ -91,6 +84,7 @@ fun createFile(application: Application): File {
 fun rotateBitmap(bitmap: Bitmap, isBackCamera: Boolean = false): Bitmap {
     val matrix = Matrix()
     return if (isBackCamera) {
+//        matrix.postRotate(90f)
         Bitmap.createBitmap(
             bitmap,
             0,
@@ -101,6 +95,8 @@ fun rotateBitmap(bitmap: Bitmap, isBackCamera: Boolean = false): Bitmap {
             true
         )
     } else {
+        matrix.postRotate(-90f)
+        matrix.postScale(-1f, 1f, bitmap.width / 2f, bitmap.height / 2f)
         Bitmap.createBitmap(
             bitmap,
             0,

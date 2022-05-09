@@ -21,6 +21,7 @@
     <string name="title_login_page">Siap Nuduhake Crita Sampeyan?</string>
     <string name="title_welcome_alert_failed">Sayange sampeyan ora bisa mlebu kanthi sukses. Mangga nyoba maneh</string>
     <string name="title_welcome_register_alert_failed">Sayange sampeyan ora bisa dhapter kanthi sukses. Mangga nyoba maneh</string>
+    <string name="title_activity_maps">Peta</string>
 
     <string name="signup">Dhaptar</string>
     <string name="login">Mlebu</string>
@@ -54,8 +55,13 @@
     <string name="invalid_password">Tembung sandhi kudu luwih saka 5 karakter</string>
     <string name="camera_permission_denied">Ora Entuk Persetujuan</string>
     <string name="no_story">Durung ana crita</string>
+    <string name="error_occurred">Sawetara Kesalahan Kedadean</string>
+    <string name="enable_gps_permission">Mangga ngidini layanan lokasi sampeyan</string>
+    <string name="something_wrong">Duh.. ana sing salah..<br /> Priksa sambungan sampeyan</string>
 
+    <string name="sign_up_success">Registrasi akun sukses, sampeyan bisa login nganggo akun sampeyan</string>
     <string name="upload_success">Unggahan Sukses</string>
+    <string name="log_in_success">LogIn Sukses</string>
 
     <string name="empty_email">Email Field dibutuhake</string>
     <string name="empty_password">Sandi Field dibutuhake</string>
@@ -77,4 +83,7 @@
     <string name="item_createdAt">Diunggahake On</string>
     <string name="item_name">Jeneng panganggo</string>
     <string name="item_description">Katrangan</string>
+    <string name="share_location">Nuduhake Lokasi</string>
+    <string name="retry">Coba maneh</string>
+    <string name="menu_maps">Peta</string>
 </resources>

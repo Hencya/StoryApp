@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -16,22 +17,11 @@ import com.example.storyapp.R
 import com.example.storyapp.data.remote.response.ListStoryItem
 import com.example.storyapp.databinding.ItemRowStoriesBinding
 import com.example.storyapp.ui.detailStory.DetailStoryActivity
-import com.example.storyapp.utils.StoryDiffCallback
 import com.example.storyapp.utils.formatDate
 import java.util.*
 
-class ListStoryAdapter : RecyclerView.Adapter<ListStoryAdapter.ViewHolder>() {
-
-    private val listStory = java.util.ArrayList<ListStoryItem>()
-
-    fun setListStory(itemStory: List<ListStoryItem>) {
-        val diffCallback = StoryDiffCallback(this.listStory, itemStory)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-
-        this.listStory.clear()
-        this.listStory.addAll(itemStory)
-        diffResult.dispatchUpdatesTo(this)
-    }
+class ListStoryAdapter :
+    PagingDataAdapter<ListStoryItem, ListStoryAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
@@ -39,16 +29,19 @@ class ListStoryAdapter : RecyclerView.Adapter<ListStoryAdapter.ViewHolder>() {
         return ViewHolder(binding)
     }
 
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(listStory[position])
+        val data = getItem(position)
+        if (data != null) {
+            holder.bind(data)
+        }
     }
 
     class ViewHolder(private var binding: ItemRowStoriesBinding) :
         RecyclerView.ViewHolder(binding.root) {
         @RequiresApi(Build.VERSION_CODES.O)
         fun bind(story: ListStoryItem) {
-            Log.d("Masuk Sini View holder", story.toString())
             Glide.with(binding.root.context)
                 .load(story.photoUrl) // URL Gambar
                 .placeholder(R.drawable.ic_baseline_place_holder_24) // placeholder
@@ -78,5 +71,21 @@ class ListStoryAdapter : RecyclerView.Adapter<ListStoryAdapter.ViewHolder>() {
         }
     }
 
-    override fun getItemCount() = listStory.size
+    companion object {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListStoryItem>() {
+            override fun areItemsTheSame(
+                oldItem: ListStoryItem,
+                newItem: ListStoryItem
+            ): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(
+                oldItem: ListStoryItem,
+                newItem: ListStoryItem
+            ): Boolean {
+                return oldItem.id == newItem.id
+            }
+        }
+    }
 }

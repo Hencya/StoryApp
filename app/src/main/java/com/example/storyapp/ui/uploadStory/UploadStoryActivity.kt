@@ -1,11 +1,14 @@
 package com.example.storyapp.ui.uploadStory
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -16,18 +19,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.storyapp.R
+import com.example.storyapp.data.ResultResponse
 import com.example.storyapp.data.model.UserModel
 import com.example.storyapp.databinding.ActivityUploadStoryBinding
+import com.example.storyapp.ui.ViewModelFactory
 import com.example.storyapp.ui.camera.CameraActivity
-import com.example.storyapp.ui.main.MainActivity
 import com.example.storyapp.ui.setting.SettingActivity
-import com.example.storyapp.utils.ApiCallbackString
 import com.example.storyapp.utils.reduceFileImage
 import com.example.storyapp.utils.rotateBitmap
 import com.example.storyapp.utils.uriToFile
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
@@ -35,12 +41,16 @@ import java.io.File
 class UploadStoryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUploadStoryBinding
-    private lateinit var currentPhotoPath: String
 
     private var getFile: File? = null
+    private var location: Location? = null
 
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var user: UserModel
-    private val uploadStoryViewModel by viewModels<UploadStoryViewModel>()
+
+    private val uploadStoryViewModel: UploadStoryViewModel by viewModels {
+        ViewModelFactory.getInstance(this)
+    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -70,6 +80,7 @@ class UploadStoryActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         user = intent.getParcelableExtra(DATA_USER)!!
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         supportActionBar?.title = getString(R.string.upload_story_title)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -85,18 +96,16 @@ class UploadStoryActivity : AppCompatActivity() {
         binding.cameraXButton.setOnClickListener { startCameraX() }
         binding.galleryButton.setOnClickListener { startGallery() }
         binding.uploadButton.setOnClickListener { uploadImage() }
-
-        showLoading()
-    }
-
-    private fun showLoading() {
-        uploadStoryViewModel.isLoading.observe(this) {
-            binding.apply {
-                if (it) progressBar.visibility = View.VISIBLE
-                else progressBar.visibility = View.GONE
+        binding.switchCompat.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                getMyLocation()
+            } else {
+                location = null
             }
         }
+
     }
+
 
     private fun startGallery() {
         val intent = Intent()
@@ -144,10 +153,10 @@ class UploadStoryActivity : AppCompatActivity() {
 
     private fun uploadImage() {
 
-        val description =
-            binding.descriptionEditText.text.toString()
+        val description = binding.descriptionEditText.text.toString()
+            .toRequestBody("application/json;charset=utf-8".toMediaType())
 
-        if (description.isEmpty()) {
+        if (binding.descriptionEditText.text.toString().isEmpty()) {
             binding.descriptionEditText.error = getString(R.string.empty_description)
             return
         }
@@ -162,15 +171,44 @@ class UploadStoryActivity : AppCompatActivity() {
                 requestImageFile
             )
 
-            uploadStoryViewModel.uploadImage(
-                user,
-                description.toRequestBody("text/plain".toMediaType()),
-                imageMultipart,
-                object : ApiCallbackString {
-                    override fun onResponse(success: Boolean, message: String) {
-                        showAlertDialog(success, message)
+            var lat: RequestBody? = null
+            var lon: RequestBody? = null
+            if (location != null) {
+                lat = location?.latitude.toString().toRequestBody("text/plain".toMediaType())
+                lon = location?.longitude.toString().toRequestBody("text/plain".toMediaType())
+            }
+
+            uploadStoryViewModel.uploadStory(user.token, description, imageMultipart, lat, lon)
+                .observe(this) {
+                    if (it != null) {
+                        when (it) {
+                            is ResultResponse.Loading -> {
+                                binding.progressBar.visibility = View.VISIBLE
+                            }
+                            is ResultResponse.Success -> {
+                                binding.progressBar.visibility = View.GONE
+                                Toast.makeText(
+                                    this@UploadStoryActivity,
+                                    getString(R.string.upload_success),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                finish()
+                            }
+                            is ResultResponse.Error -> {
+                                binding.progressBar.visibility = View.GONE
+                                AlertDialog.Builder(this).apply {
+                                    setTitle(getString(R.string.upload_failed))
+                                    setMessage(getString(R.string.message_upload_failed_alert) + ", ${it.error}")
+                                    setPositiveButton(getString(R.string.next_alert)) { _, _ ->
+                                        binding.progressBar.visibility = View.GONE
+                                    }
+                                    create()
+                                    show()
+                                }
+                            }
+                        }
                     }
-                })
+                }
         } else {
             Toast.makeText(
                 this@UploadStoryActivity,
@@ -179,27 +217,6 @@ class UploadStoryActivity : AppCompatActivity() {
             ).show()
         }
     }
-
-    private fun showAlertDialog(isSuccess: Boolean, message: String) {
-        if (isSuccess) {
-            AlertDialog.Builder(this).apply {
-                val intent = Intent(context, MainActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-        } else {
-            AlertDialog.Builder(this).apply {
-                setTitle(getString(R.string.upload_failed))
-                setMessage(getString(R.string.message_upload_failed_alert) + ", $message")
-                setPositiveButton(getString(R.string.next_alert)) { _, _ ->
-                    binding.progressBar.visibility = View.GONE
-                }
-                create()
-                show()
-            }
-        }
-    }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
@@ -216,9 +233,43 @@ class UploadStoryActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("MissingPermission")
+    private fun getMyLocation() {
+        if (ContextCompat.checkSelfPermission(
+                this.applicationContext,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            fusedLocationClient.lastLocation.addOnSuccessListener {
+                if (it != null) {
+                    location = it
+                    Log.d(TAG, "Lat : ${it.latitude}, Lon : ${it.longitude}")
+                } else {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.enable_gps_permission),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    binding.switchCompat.isChecked = false
+                }
+            }
+        } else {
+            requestPermissionLauncher.launch(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION))
+        }
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) {
+        Log.d(TAG, "$it")
+        if (it[Manifest.permission.ACCESS_COARSE_LOCATION] == true) {
+            getMyLocation()
+        } else binding.switchCompat.isChecked = false
+    }
+
     companion object {
         const val CAMERA_X_RESULT = 200
-
+        private const val TAG = "UploadStoryActivity"
         const val DATA_USER = "data_user"
 
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)

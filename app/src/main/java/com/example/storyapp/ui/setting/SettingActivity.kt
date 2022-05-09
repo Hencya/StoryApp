@@ -1,20 +1,24 @@
 package com.example.storyapp.ui.setting
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.storyapp.R
 import com.example.storyapp.data.preferences.LoginPreference
 import com.example.storyapp.databinding.ActivitySettingBinding
-import com.example.storyapp.ui.ViewModelFactory
+import com.example.storyapp.ui.ViewModelUserFactory
 import com.example.storyapp.ui.welcome.WelcomeActivity
+import kotlinx.coroutines.launch
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "login_pref")
 
@@ -34,19 +38,29 @@ class SettingActivity : AppCompatActivity() {
         setupAction()
     }
 
-
     private fun setupViewModel() {
         settingViewModel = ViewModelProvider(
             this,
-            ViewModelFactory(LoginPreference.getInstance(dataStore))
+            ViewModelUserFactory(LoginPreference.getInstance(dataStore))
         )[SettingViewModel::class.java]
 
-        settingViewModel.getUser().observe(this) { user ->
-            if (!user.isLoggedIn) {
-                startActivity(Intent(this, WelcomeActivity::class.java))
-                finish()
+        lifecycleScope.launchWhenCreated {
+            launch {
+                settingViewModel.getUser().collect {
+                    if (!it.isLoggedIn) {
+                        gotoWelcomeActivity()
+                    }
+                }
             }
         }
+    }
+
+    private fun gotoWelcomeActivity() {
+        startActivity(
+            Intent(this, WelcomeActivity::class.java),
+            ActivityOptionsCompat.makeSceneTransitionAnimation(this as Activity).toBundle()
+        )
+        finish()
     }
 
     private fun setupAction() {
@@ -56,6 +70,7 @@ class SettingActivity : AppCompatActivity() {
         }
         binding.changeLanguageButton.setOnClickListener {
             startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
+            finish()
         }
     }
 
@@ -70,3 +85,4 @@ class SettingActivity : AppCompatActivity() {
         }
     }
 }
+

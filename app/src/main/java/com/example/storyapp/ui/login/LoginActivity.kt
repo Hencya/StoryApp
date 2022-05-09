@@ -11,23 +11,27 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.storyapp.R
+import com.example.storyapp.data.ResultResponse
+import com.example.storyapp.data.model.UserModel
 import com.example.storyapp.data.preferences.LoginPreference
 import com.example.storyapp.databinding.ActivityLoginBinding
 import com.example.storyapp.ui.ViewModelFactory
 import com.example.storyapp.ui.main.MainActivity
-import com.example.storyapp.utils.ApiCallbackString
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "login_pref")
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var loginViewModel: LoginViewModel
+    private val loginViewModel: LoginViewModel by viewModels {
+        ViewModelFactory.getInstance(this)
+    }
     private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,10 +40,8 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupView()
-        setupViewModel()
         setMyButtonEnable()
         setupAction()
-        showLoading()
         playAnimation()
     }
 
@@ -89,13 +91,6 @@ class LoginActivity : AppCompatActivity() {
         supportActionBar?.hide()
     }
 
-    private fun setupViewModel() {
-        loginViewModel = ViewModelProvider(
-            this,
-            ViewModelFactory(LoginPreference.getInstance(dataStore))
-        )[LoginViewModel::class.java]
-    }
-
     private fun setupAction() {
         binding.emailEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
@@ -130,11 +125,42 @@ class LoginActivity : AppCompatActivity() {
                     binding.passwordEditText.error = getString(R.string.empty_password)
                 }
                 else -> {
-                    loginViewModel.login(email, password, object : ApiCallbackString {
-                        override fun onResponse(success: Boolean, message: String) {
-                            showAlertDialog(success, message)
+                    loginViewModel.login(email, password).observe(this) {
+                        when (it) {
+                            is ResultResponse.Loading -> {
+                                binding.loginProgressBar.visibility = View.VISIBLE
+                                binding.imageView.visibility = View.GONE
+                                binding.titleTextView.visibility = View.GONE
+                                binding.messageTextView.visibility = View.GONE
+                                binding.emailTextView.visibility = View.GONE
+                                binding.emailEditText.visibility = View.GONE
+                                binding.passwordTextView.visibility = View.GONE
+                                binding.passwordEditText.visibility = View.GONE
+                                binding.loginButton.visibility = View.GONE
+                            }
+                            is ResultResponse.Success -> {
+                                binding.loginProgressBar.visibility = View.GONE
+                                val user = UserModel(
+                                    it.data.name,
+                                    email,
+                                    password,
+                                    it.data.userId,
+                                    it.data.token,
+                                    true
+                                )
+                                showAlertDialog(true, getString(R.string.log_in_success))
+
+                                val userPref = LoginPreference.getInstance(dataStore)
+                                lifecycleScope.launchWhenStarted {
+                                    userPref.saveUser(user)
+                                }
+                            }
+                            is ResultResponse.Error -> {
+                                binding.loginProgressBar.visibility = View.GONE
+                                showAlertDialog(false, it.error)
+                            }
                         }
-                    })
+                    }
 
                 }
             }
@@ -151,7 +177,6 @@ class LoginActivity : AppCompatActivity() {
             Pass != null && Email != null && Email.toString().isNotEmpty() && Pass.toString()
                 .isNotEmpty()
     }
-
 
     private fun showAlertDialog(success: Boolean, message: String) {
         if (success) {
@@ -188,35 +213,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun showLoading() {
-        loginViewModel.isLoading.observe(this) {
-            binding.apply {
-                if (it) {
-                    loginProgressBar.visibility = View.VISIBLE
-                    imageView.visibility = View.GONE
-                    titleTextView.visibility = View.GONE
-                    messageTextView.visibility = View.GONE
-                    emailTextView.visibility = View.GONE
-                    emailEditText.visibility = View.GONE
-                    passwordTextView.visibility = View.GONE
-                    passwordEditText.visibility = View.GONE
-                    loginButton.visibility = View.GONE
-                } else {
-                    loginProgressBar.visibility = View.GONE
-                    imageView.visibility = View.VISIBLE
-                    titleTextView.visibility = View.VISIBLE
-                    messageTextView.visibility = View.VISIBLE
-                    emailTextView.visibility = View.VISIBLE
-                    emailEditText.visibility = View.VISIBLE
-                    passwordTextView.visibility = View.VISIBLE
-                    passwordEditText.visibility = View.VISIBLE
-                    loginButton.visibility = View.VISIBLE
-                }
-            }
-        }
-    }
-
 }
 
 

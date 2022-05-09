@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 
-class LoginPreference private constructor(private val dataStore: DataStore<Preferences>) {
+class LoginPreference(private val dataStore: DataStore<Preferences>) {
 
     fun getUser(): Flow<UserModel> {
         return dataStore.data.map { preferences ->

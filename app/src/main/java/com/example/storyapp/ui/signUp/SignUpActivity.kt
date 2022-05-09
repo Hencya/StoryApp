@@ -14,9 +14,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.storyapp.R
+import com.example.storyapp.data.ResultResponse
 import com.example.storyapp.databinding.ActivitySignUpBinding
 import com.example.storyapp.ui.welcome.WelcomeActivity
-import com.example.storyapp.utils.ApiCallbackString
 
 
 class SignUpActivity : AppCompatActivity() {
@@ -31,7 +31,6 @@ class SignUpActivity : AppCompatActivity() {
         setupView()
         setMyButtonEnable()
         setupAction()
-        showLoading()
         playAnimation()
     }
 
@@ -129,11 +128,30 @@ class SignUpActivity : AppCompatActivity() {
                     binding.passwordEditText.error = getString(R.string.empty_password)
                 }
                 else -> {
-                    signupViewModel.register(name, email, password, object : ApiCallbackString {
-                        override fun onResponse(success: Boolean, message: String) {
-                            showAlertDialog(success, message)
+                    signupViewModel.register(name, email, password).observe(this) {
+                        when (it) {
+                            is ResultResponse.Loading -> {
+                                binding.signUpProgressBar.visibility = View.VISIBLE
+                                binding.imageView.visibility = View.GONE
+                                binding.titleTextView.visibility = View.GONE
+                                binding.nameTextView.visibility = View.GONE
+                                binding.nameEditText.visibility = View.GONE
+                                binding.emailTextView.visibility = View.GONE
+                                binding.emailEditText.visibility = View.GONE
+                                binding.passwordTextView.visibility = View.GONE
+                                binding.passwordEditText.visibility = View.GONE
+                                binding.signUpButton.visibility = View.GONE
+                            }
+                            is ResultResponse.Success -> {
+                                binding.signUpProgressBar.visibility = View.GONE
+                                showAlertDialog(true, getString(R.string.sign_up_success))
+                            }
+                            is ResultResponse.Error -> {
+                                binding.signUpProgressBar.visibility = View.GONE
+                                showAlertDialog(false, it.error)
+                            }
                         }
-                    })
+                    }
 
                 }
             }
@@ -158,6 +176,7 @@ class SignUpActivity : AppCompatActivity() {
                 setMessage(getString(R.string.message_welcome_signup_alert))
                 setPositiveButton(getString(R.string.next_alert)) { _, _ ->
                     val intent = Intent(context, WelcomeActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(intent)
                     finish()
                 }
@@ -186,33 +205,4 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    private fun showLoading() {
-        signupViewModel.isLoading.observe(this) {
-            binding.apply {
-                if (it) {
-                    signUpProgressBar.visibility = View.VISIBLE
-                    imageView.visibility = View.GONE
-                    titleTextView.visibility = View.GONE
-                    nameTextView.visibility = View.GONE
-                    nameEditText.visibility = View.GONE
-                    emailTextView.visibility = View.GONE
-                    emailEditText.visibility = View.GONE
-                    passwordTextView.visibility = View.GONE
-                    passwordEditText.visibility = View.GONE
-                    signUpButton.visibility = View.GONE
-                } else {
-                    signUpProgressBar.visibility = View.GONE
-                    imageView.visibility = View.VISIBLE
-                    titleTextView.visibility = View.VISIBLE
-                    nameTextView.visibility = View.VISIBLE
-                    nameEditText.visibility = View.VISIBLE
-                    emailTextView.visibility = View.VISIBLE
-                    emailEditText.visibility = View.VISIBLE
-                    passwordTextView.visibility = View.VISIBLE
-                    passwordEditText.visibility = View.VISIBLE
-                    signUpButton.visibility = View.VISIBLE
-                }
-            }
-        }
-    }
 }

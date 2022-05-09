@@ -20,6 +20,7 @@
     <string name="title_login_page">Ready To Share Your Story?</string>
     <string name="title_welcome_alert_failed">Too bad you can not login successfully. Please Try Again</string>
     <string name="title_welcome_register_alert_failed">Too bad you can not register successfully. Please Try Again</string>
+    <string name="title_activity_maps">Maps</string>
 
     <string name="signup">signUp</string>
     <string name="login">Login</string>
@@ -53,8 +54,13 @@
     <string name="invalid_password">Password Must Be More Than 5 Characters</string>
     <string name="camera_permission_denied">Not Getting Approval</string>
     <string name="no_story">Story Doesnt Exist</string>
+    <string name="error_occurred">Some Error Occurred</string>
+    <string name="enable_gps_permission">Please allowed your location services</string>
+    <string name="something_wrong">Oops.. something went wrong.<br /> Check your connection</string>
 
+    <string name="sign_up_success">Register Success, You can Sign In with your account</string>
     <string name="upload_success">Uploading Success</string>
+    <string name="log_in_success">Log In Success</string>
 
     <string name="empty_email">Email Field Required</string>
     <string name="empty_description">Description Field Required</string>
@@ -76,5 +82,7 @@
     <string name="item_createdAt">Uploaded On</string>
     <string name="item_name">Username</string>
     <string name="item_description">Description</string>
-
+    <string name="share_location">Share Location</string>
+    <string name="retry">Retry</string>
+    <string name="menu_maps">Maps</string>
 </resources>

@@ -1,16 +1,16 @@
 package com.example.storyapp.ui.setting
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.storyapp.data.model.UserModel
 import com.example.storyapp.data.preferences.LoginPreference
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class SettingViewModel(private val pref: LoginPreference) : ViewModel() {
-    fun getUser(): LiveData<UserModel> {
-        return pref.getUser().asLiveData()
+
+    fun getUser(): Flow<UserModel> {
+        return pref.getUser()
     }
 
     fun logout() {
@@ -18,5 +18,4 @@ class SettingViewModel(private val pref: LoginPreference) : ViewModel() {
             pref.logout()
         }
     }
-
 }

@@ -1,27 +1,37 @@
 package com.example.storyapp.ui.main
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.isVisible
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.storyapp.R
 import com.example.storyapp.data.model.UserModel
 import com.example.storyapp.data.preferences.LoginPreference
 import com.example.storyapp.databinding.ActivityMainBinding
 import com.example.storyapp.ui.ViewModelFactory
+import com.example.storyapp.ui.ViewModelUserFactory
 import com.example.storyapp.ui.adapter.ListStoryAdapter
+import com.example.storyapp.ui.adapter.LoadingStateAdapter
+import com.example.storyapp.ui.maps.MapsActivity
 import com.example.storyapp.ui.setting.SettingActivity
 import com.example.storyapp.ui.uploadStory.UploadStoryActivity
 import com.example.storyapp.ui.welcome.WelcomeActivity
-import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore("login_pref")
 
@@ -30,8 +40,11 @@ class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding
 
+    private lateinit var mainPrefViewModel: MainPrefViewModel
     private lateinit var adapter: ListStoryAdapter
-    private lateinit var mainViewModel: MainViewModel
+    private val mainViewModel: MainViewModel by viewModels {
+        ViewModelFactory.getInstance(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,64 +56,89 @@ class MainActivity : AppCompatActivity() {
         adapter = ListStoryAdapter()
         setupViewModel()
 
+        initSwipeToRefresh()
+
         setupAction()
         setupRecycleView()
-        showSnackBar()
-        showLoading()
-        showDataStatus()
+    }
+
+    private fun initAdapter(user: UserModel) {
+        adapter = ListStoryAdapter()
+        binding?.rvStories?.adapter = adapter.withLoadStateHeaderAndFooter(
+            footer = LoadingStateAdapter { adapter.retry() },
+            header = LoadingStateAdapter { adapter.retry() }
+        )
+
+        lifecycleScope.launchWhenCreated {
+            adapter.loadStateFlow.collect {
+                binding?.swipeRefresh?.isRefreshing = it.mediator?.refresh is LoadState.Loading
+            }
+        }
+        lifecycleScope.launch {
+            adapter.loadStateFlow.collectLatest { loadStates ->
+                binding?.viewError?.root?.isVisible = loadStates.refresh is LoadState.Error
+            }
+            if (adapter.itemCount < 1) binding?.viewError?.root?.visibility = View.VISIBLE
+            else binding?.viewError?.root?.visibility = View.GONE
+        }
+
+        mainViewModel.getStory(user.token).observe(this) {
+            adapter.submitData(lifecycle, it)
+        }
+    }
+
+    private fun initSwipeToRefresh() {
+        binding?.swipeRefresh?.setOnRefreshListener { adapter.refresh() }
     }
 
 
     private fun setupViewModel() {
-        mainViewModel = ViewModelProvider(
+        mainPrefViewModel = ViewModelProvider(
             this,
-            ViewModelFactory(LoginPreference.getInstance(dataStore))
-        )[MainViewModel::class.java]
+            ViewModelUserFactory(LoginPreference.getInstance(dataStore))
+        )[MainPrefViewModel::class.java]
 
-        mainViewModel.getUser().observe(this) { user ->
-            if (user.isLoggedIn) {
-                binding?.tvName?.text = getString(R.string.hallo_user, user.name)
-
-                mainViewModel.showListStory(user.token)
-                mainViewModel.itemStory.observe(this) {
-                    adapter.setListStory(it)
+        lifecycleScope.launchWhenCreated {
+            launch {
+                mainPrefViewModel.getUser().collect { user ->
+                    if (user.isLoggedIn) {
+                        binding?.tvName?.text = getString(R.string.hallo_user, user.name)
+                        initAdapter(user)
+                    } else {
+                        gotoWelcomeActivity()
+                    }
                 }
-            } else {
-                startActivity(Intent(this, WelcomeActivity::class.java))
-                finish()
             }
         }
     }
 
-
-    private fun showSnackBar() {
-        mainViewModel.snackBarText.observe(this) {
-            it.getContentIfNotHandled()?.let { snackBarText ->
-                Snackbar.make(
-                    findViewById(R.id.rv_stories),
-                    snackBarText,
-                    Snackbar.LENGTH_SHORT
-                ).show()
-            }
-        }
+    private fun gotoWelcomeActivity() {
+        startActivity(
+            Intent(this, WelcomeActivity::class.java),
+            ActivityOptionsCompat.makeSceneTransitionAnimation(this as Activity).toBundle()
+        )
+        finish()
     }
-
 
     private fun setupAction() {
         binding?.fabAdd?.setOnClickListener { view ->
             if (view.id == R.id.fab_add) {
-                mainViewModel.getUser().observe(this) {
-                    user = UserModel(
-                        it.userId,
-                        it.name,
-                        it.email,
-                        it.password,
-                        it.token,
-                        true
-                    )
-                    val intent = Intent(this@MainActivity, UploadStoryActivity::class.java)
-                    intent.putExtra(UploadStoryActivity.DATA_USER, user)
-                    startActivity(intent)
+                lifecycleScope.launchWhenCreated {
+                    launch {
+                        mainPrefViewModel.getUser().collect {
+                            user = UserModel(
+                                it.userId,
+                                it.name,
+                                it.email,
+                                it.password,
+                                it.token,
+                                true
+                            )
+                            val intent = Intent(this@MainActivity, UploadStoryActivity::class.java)
+                            intent.putExtra(UploadStoryActivity.DATA_USER, user)
+                            startActivity(intent)
+                        }
+                    }
                 }
             }
         }
@@ -126,35 +164,28 @@ class MainActivity : AppCompatActivity() {
                 startActivity(settingActivityIntent)
                 return true
             }
+            R.id.menu_maps -> {
+                lifecycleScope.launchWhenCreated {
+                    launch {
+                        mainPrefViewModel.getUser().collect {
+                            user = UserModel(
+                                it.userId,
+                                it.name,
+                                it.email,
+                                it.password,
+                                it.token,
+                                true
+                            )
+                            val mapsActivityIntent =
+                                Intent(this@MainActivity, MapsActivity::class.java)
+                            mapsActivityIntent.putExtra(UploadStoryActivity.DATA_USER, user)
+                            startActivity(mapsActivityIntent)
+                        }
+                    }
+                }
+                return true
+            }
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    private fun showLoading() {
-        mainViewModel.isLoading.observe(this) {
-            binding?.apply {
-                if (it) {
-                    progressBar.visibility = View.VISIBLE
-                    rvStories.visibility = View.INVISIBLE
-                } else {
-                    progressBar.visibility = View.GONE
-                    rvStories.visibility = View.VISIBLE
-                }
-            }
-        }
-    }
-
-    private fun showDataStatus() {
-        mainViewModel.isHaveData.observe(this) {
-            binding?.apply {
-                if (it) {
-                    rvStories.visibility = View.VISIBLE
-                    tvInfo.visibility = View.GONE
-                } else {
-                    rvStories.visibility = View.GONE
-                    tvInfo.visibility = View.VISIBLE
-                }
-            }
         }
     }
 
@@ -162,25 +193,4 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         _binding = null
     }
-
-    override fun onResume() {
-        super.onResume()
-        mainViewModel.getUser().observe(this) {
-            user = UserModel(
-                it.userId,
-                it.name,
-                it.email,
-                it.password,
-                it.token,
-                true
-            )
-
-            mainViewModel.showListStory(user.token)
-            mainViewModel.itemStory.observe(this) {
-                adapter.setListStory(it)
-            }
-        }
-    }
-
-
 }
