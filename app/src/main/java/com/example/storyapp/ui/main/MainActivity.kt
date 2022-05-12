@@ -189,6 +189,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launchWhenCreated {
+            launch {
+                mainPrefViewModel.getUser().collect { user ->
+                    binding?.tvName?.text = getString(R.string.hallo_user, user.name)
+                    initAdapter(user)
+                }
+            }
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
